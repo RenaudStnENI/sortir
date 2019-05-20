@@ -18,4 +18,5 @@ yarn-error.log
 ###> symfony/phpunit-bridge ###
 .phpunit
 /phpunit.xml
+/.idea
 ###< symfony/phpunit-bridge ###
