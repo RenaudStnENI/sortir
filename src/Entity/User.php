@@ -46,80 +46,154 @@ class User
      */
     private $actif;
 
-    public function getId(): ?int
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Site", inversedBy="users")
+     */
+    private $site;
+
+    /**
+     * @return mixed
+     */
+    public function getId()
     {
         return $this->id;
     }
 
-    public function getNom(): ?string
+    /**
+     * @param mixed $id
+     * @return User
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNom()
     {
         return $this->nom;
     }
 
-    public function setNom(string $nom): self
+    /**
+     * @param mixed $nom
+     * @return User
+     */
+    public function setNom($nom)
     {
         $this->nom = $nom;
-
         return $this;
     }
 
-    public function getPrenom(): ?string
+    /**
+     * @return mixed
+     */
+    public function getPrenom()
     {
         return $this->prenom;
     }
 
-    public function setPrenom(string $prenom): self
+    /**
+     * @param mixed $prenom
+     * @return User
+     */
+    public function setPrenom($prenom)
     {
         $this->prenom = $prenom;
-
         return $this;
     }
 
-    public function getTelephone(): ?string
+    /**
+     * @return mixed
+     */
+    public function getTelephone()
     {
         return $this->telephone;
     }
 
-    public function setTelephone(string $telephone): self
+    /**
+     * @param mixed $telephone
+     * @return User
+     */
+    public function setTelephone($telephone)
     {
         $this->telephone = $telephone;
-
         return $this;
     }
 
-    public function getMail(): ?string
+    /**
+     * @return mixed
+     */
+    public function getMail()
     {
         return $this->mail;
     }
 
-    public function setMail(string $mail): self
+    /**
+     * @param mixed $mail
+     * @return User
+     */
+    public function setMail($mail)
     {
         $this->mail = $mail;
-
         return $this;
     }
 
-    public function getAdmin(): ?bool
+    /**
+     * @return mixed
+     */
+    public function getAdmin()
     {
         return $this->admin;
     }
 
-    public function setAdmin(?bool $admin): self
+    /**
+     * @param mixed $admin
+     * @return User
+     */
+    public function setAdmin($admin)
     {
         $this->admin = $admin;
-
         return $this;
     }
 
-    public function getActif(): ?bool
+    /**
+     * @return mixed
+     */
+    public function getActif()
     {
         return $this->actif;
     }
 
-    public function setActif(?bool $actif): self
+    /**
+     * @param mixed $actif
+     * @return User
+     */
+    public function setActif($actif)
     {
         $this->actif = $actif;
-
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getSite()
+    {
+        return $this->site;
+    }
+
+    /**
+     * @param mixed $site
+     * @return User
+     */
+    public function setSite($site)
+    {
+        $this->site = $site;
+        return $this;
+    }
+
+
 }
