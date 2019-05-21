@@ -1,12 +1,26 @@
-<nav class="navbar navbar-expand navbar-dark bg-dark fixed-top" style="height: 70px;opacity: 0.7">
 
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">
-            <img src="" width="30" height="30" alt="">
-        </a>
-        <a class="nav-item nav-link text-light" href="#"><h5>Sortir</h5></a>
-        <div class="navbar-nav ml-auto">
+</nav>
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: black">
 
-        </div>
-    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03"
+            aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('list') }}">Liste des sorties</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Nouvelle sortie </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('monProfil') }}">Mon profil</a>
+        </li>
+
+        <li class="nav-item">
+        <li><a class="nav-link" href="{{ path('logout') }}">Déconnexion</a></li>
+        </li>
+
+    </ul>
 </nav>

@@ -1,3 +1,9 @@
+{% extends ('layout.html.twig') %}
+
+{% block title %}{{ parent() }} mon Profil{% endblock %}
+
+{% block main %}
+
 <div class="container">
     <div class="row">
         <div class="col-sm-2">
@@ -7,44 +13,59 @@
 
             <div class="jumbotron">
 
-
-                <h1>Créer un compte</h1>
+                <h1>Mon Profil</h1>
 
                 <div>
                     <br>
-                    {{ form_start(registerForm) }}
+                    {{ form_start(userForm) }}
+
                     <div class="group">
-                        <p>Pseudo :</p>
-                        {{ form_widget(registerForm.username) }}
-                        {{ form_errors(registerForm.username) }}
+                        <p>Nom :</p>
+                        {{ form_widget(userForm.nom) }}
+                        {{ form_errors(userForm.nom) }}
                         <div></div>
                         <br>
                     </div>
+
                     <div class="group">
-                        <p>Adresse e-mail :</p>
-                        {{ form_widget(registerForm.email) }}
-                        {{ form_errors(registerForm.email) }}
+                        <p>Prénom :</p>
+                        {{ form_widget(userForm.prenom) }}
+                        {{ form_errors(userForm.prenom) }}
                         <div></div>
                         <br>
                     </div>
+
                     <div class="group">
-                        {{ form_widget(registerForm.password) }}
-                        {{ form_errors(registerForm.password) }}
+                        <p>E-mail :</p>
+                        {{ form_widget(userForm.mail) }}
+                        {{ form_errors(userForm.mail) }}
                         <div></div>
                         <br>
                     </div>
+
+                    <div class="group">
+                        <p>Téléphone :</p>
+                        {{ form_widget(userForm.telephone) }}
+                        {{ form_errors(userForm.telephone) }}
+                        <div></div>
+                        <br>
+                    </div>
+
                     <br>
                     <div class="group">
-                        {{ form_widget(registerForm.password) }}
-                        {{ form_errors(registerForm.password) }}
+                        {{ form_widget(userForm.password) }}
+                        {{ form_errors(userForm.password) }}
                     </div>
+
                     <div>
                         <button type="submit" class="btn btn-primary">valider</button>
                     </div>
-                    {{ form_end(registerForm) }}
 
-                    {#{{ form(ideaForm) }}#}
+                    {{ form_end(userForm) }}
+
+
                 </div>
+
 
 
             </div>
@@ -55,3 +76,5 @@
         </div>
     </div>
 </div>
+
+{% endblock %}
