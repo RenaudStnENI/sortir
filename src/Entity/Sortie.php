@@ -71,6 +71,12 @@ class Sortie
      */
     private $etat;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $organisateur;
+
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -216,5 +222,24 @@ class Sortie
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getOrganisateur()
+    {
+        return $this->organisateur;
+    }
+
+    /**
+     * @param mixed $organisateur
+     * @return Sortie
+     */
+    public function setOrganisateur($organisateur)
+    {
+        $this->organisateur = $organisateur;
+        return $this;
+    }
+
 
 }

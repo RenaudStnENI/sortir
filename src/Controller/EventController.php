@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class EventController extends Controller
 {
     /**
-     * @Route("/", name="list")
+     * @Route("/sortir", name="list")
      */
     public function list(EntityManagerInterface $em)
     {
