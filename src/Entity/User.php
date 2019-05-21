@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -50,6 +52,43 @@ class User
      * @ORM\ManyToOne(targetEntity="App\Entity\Site", inversedBy="users")
      */
     private $site;
+
+
+    /**
+     * @ORM\Column(type="string", nullable=false)
+     */
+    private $password;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Sortie", inversedBy="users")
+     */
+    private $sorties;
+
+    public function __construct()
+    {
+        $this->sorties = new ArrayCollection();
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * @param mixed $password
+     * @return User
+     */
+
+
+    public function setPassword($password)
+    {
+        $this->password = $password;
+        return $this;
+    }
 
     /**
      * @return mixed
@@ -194,6 +233,33 @@ class User
         $this->site = $site;
         return $this;
     }
+
+    /**
+     * @return Collection|Sortie[]
+     */
+    public function getSorties(): Collection
+    {
+        return $this->sorties;
+    }
+
+    public function addSorty(Sortie $sorty): self
+    {
+        if (!$this->sorties->contains($sorty)) {
+            $this->sorties[] = $sorty;
+        }
+
+        return $this;
+    }
+
+    public function removeSorty(Sortie $sorty): self
+    {
+        if ($this->sorties->contains($sorty)) {
+            $this->sorties->removeElement($sorty);
+        }
+
+        return $this;
+    }
+
 
 
 }
