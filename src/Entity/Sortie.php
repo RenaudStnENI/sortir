@@ -31,8 +31,7 @@ class Sortie
     private $dateHeureDebut;
 
     /**
-     * @ORM\Column(type="integer")
-     * @Assert\Length(min="0", minMessage="La durée de la sortie est minimum de 1 heure !")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $duree;
 
@@ -116,12 +115,12 @@ class Sortie
         return $this;
     }
 
-    public function getDuree(): ?int
+    public function getDuree()
     {
         return $this->duree;
     }
 
-    public function setDuree(int $duree): self
+    public function setDuree(\DateTime $duree): self
     {
         $this->duree = $duree;
 

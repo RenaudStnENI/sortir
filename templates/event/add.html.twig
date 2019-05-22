@@ -3,15 +3,7 @@
 {% block title %}{{ parent() }} | {{ title }}{% endblock %}
 
 {% block main %}
-    <script>
-        $(document).ready(function () {
-            $('.js-datepicker').datepicker({
-                format: 'dd-mm-yyyy'
-            });
-        });
-    </script>
-
-    <div>
+        <div>
         <h3>Créer une sortie !</h3>
     </div>
     <div>
@@ -47,27 +39,50 @@
             {{ form_errors(sortieForm.infosSortie) }}
         </div>
         <div>
-            {{ form_label(sortieForm.lieu) }}
-            {{ form_widget(sortieForm.lieu) }}
-            {{ form_errors(sortieForm.lieu) }}
-        </div>
-        <div>
             {{ form_label(sortieForm.ville) }}
             {{ form_widget(sortieForm.ville) }}
             {{ form_errors(sortieForm.ville) }}
         </div>
         <div>
-            {{ form_label(sortieForm.site) }}
-            {{ form_widget(sortieForm.site) }}
-            {{ form_errors(sortieForm.site) }}
+            {{ form_label(sortieForm.lieu) }}
+            {{ form_widget(sortieForm.lieu) }}
+            {{ form_errors(sortieForm.lieu) }}
         </div>
         <div>
-            <button type="submit">Publier la sortie</button>
+
         </div>
-        {{ form_end(sortieForm) }}
         <div>
+
+        </div>
+
+        <div>
+            <label>Site : </label>
+            {{ app.user.site.nom }}
+        </div>
+        <div>
+            <button name="enregistrer" type="submit">Enregistrer</button>
+            {{ form_label(sortieForm.publier) }}
+            {{ form_widget(sortieForm.publier) }}
+            <!--<button name="publier" type="submit">Publier la sortie</button>-->
+            {{ form_end(sortieForm) }}
             <a href="{{ path('list') }}" ><button type="button">Annuler</button></a>
         </div>
     </div>
-
+    <script>
+        $('#sortie_ville').onchange(function(e) {
+            var cp = $('#cp').val();
+            $.ajax({
+                url: "villes.php?cp="+cp,
+                cache: false
+            })
+                .done(function( data ) {
+                    $('#villes').empty();
+                    data.forEach(function(ville) {
+                        $('#villes').append($('<li>'+ville+'</li>'));
+                    });
+                });
+            e.preventDefault();
+        });
+    </script>
 {% endblock %}
+
