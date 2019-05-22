@@ -28,6 +28,17 @@
 <body class="container-fluid">
 {% include('includes/nav.html.twig') %}
 
+<div class="container">
+    <br>
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="flash flash-{{ label  }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+    <br>
+</div>
 
 
 {#<div class="text text-center">#}

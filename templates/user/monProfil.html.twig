@@ -13,11 +13,30 @@
 
             <div class="jumbotron">
 
-                <h1>Mon Profil</h1>
+                <h1>Bonjour {{ app.user.prenom }}, souhaitez-vous modifier votre profil ?</h1>
 
                 <div>
                     <br>
                     {{ form_start(userForm) }}
+
+
+                    <div class="group">
+                        <div class="container"><img src="{{ app.user.photo }}" width="200px" height="200px"></div>
+                        <br>
+                        <p>Photo de profil :</p>
+                        {{ form_widget(userForm.photo) }}
+                        {{ form_errors(userForm.photo) }}
+                        <div></div>
+                        <br>
+                    </div>
+
+                    <div class="group">
+                        <p>Pseudo :</p>
+                        {{ form_widget(userForm.username) }}
+                        {{ form_errors(userForm.username) }}
+                        <div></div>
+                        <br>
+                    </div>
 
                     <div class="group">
                         <p>Nom :</p>
@@ -51,7 +70,14 @@
                         <br>
                     </div>
 
-                    <br>
+                    <div class="group">
+                        <p>Site :</p>
+                        {{ form_widget(userForm.site) }}
+                        {{ form_errors(userForm.site) }}
+                        <div></div>
+                        <br>
+                    </div>
+
                     <div class="group">
                         {{ form_widget(userForm.password) }}
                         {{ form_errors(userForm.password) }}

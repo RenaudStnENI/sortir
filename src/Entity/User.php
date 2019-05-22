@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -25,21 +26,27 @@ class User implements UserInterface
     private $id;
 
     /**
+     * @Assert\NotBlank(message="Le nom est obligatoire")
+     * @Assert\Length(min="3", minMessage="Minimum 3 caractères")
      * @ORM\Column(type="string", length=50)
      */
     private $nom;
 
     /**
+     * @Assert\NotBlank(message="Le prénom est obligatoire")
+     * @Assert\Length(min="3", minMessage="Minimum 3 caractères")
      * @ORM\Column(type="string", length=50)
      */
     private $prenom;
 
     /**
+     * @Assert\NotBlank(message="Le téléphone est obligatoire")
      * @ORM\Column(type="string", length=10)
      */
     private $telephone;
 
     /**
+     * @Assert\NotBlank(message="L'e-mail est obligatoire")
      * @ORM\Column(type="string", length=100)
      */
     private $mail;
@@ -65,8 +72,20 @@ class User implements UserInterface
      */
     private $password;
 
+    /**
+     * @Assert\NotBlank(message="Le pseudo est obligatoire")
+     * @ORM\Column(type="string", length=255)
+     */
+    private $username;
+
 
     private $roles;
+
+    /**
+     * @Assert\Length(max="2000", maxMessage="Maximum 2000 caractères")
+     * @ORM\Column(type="string", nullable=false, length=2000)
+     */
+    private $photo;
 
 
     /**
@@ -78,6 +97,26 @@ class User implements UserInterface
     {
         $this->sorties = new ArrayCollection();
     }
+
+    /**
+     * @return mixed
+     */
+    public function getPhoto()
+    {
+        return $this->photo;
+    }
+
+    /**
+     * @param mixed $photo
+     * @return User
+     */
+    public function setPhoto($photo)
+    {
+        $this->photo = $photo;
+        return $this;
+    }
+
+
 
 
     /**
@@ -100,10 +139,7 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $username;
+
 
     /**
      * @return mixed
