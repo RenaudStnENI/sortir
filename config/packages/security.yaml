@@ -4,7 +4,7 @@ security:
         our_db_provider:
             entity:
                 class: App\Entity\User
-                property: username
+                property:
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -16,6 +16,11 @@ security:
             form_login:
                 login_path: login
                 check_path: login
+                default_target_path: list
+            remember_me:
+                secret:   '%kernel.secret%'
+                lifetime: 604800
+                path:     /
             logout_on_user_change: true
             logout:
                 path: logout

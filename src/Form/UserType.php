@@ -2,7 +2,10 @@
 
 namespace App\Form;
 
+
+use App\Entity\Site;
 use App\Entity\User;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -15,10 +18,16 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('photo')
             ->add('nom')
             ->add('prenom')
             ->add('telephone')
-            ->add('mail', EmailType::class)
+            ->add('username')
+            ->add('mail', EmailType::class,
+                [
+                    'invalid_message'=>'E-mail non valide' ,
+                    'required'=>true,
+                ])
             //->add('admin')
             //->add('actif')
             ->add('password', RepeatedType::class,
@@ -29,7 +38,10 @@ class UserType extends AbstractType
                     'first_options'=>array('label'=>'Mot de passe'),
                     'second_options'=>array('label'=>'Confirmer mot de passe'),
                 ])
-            //->add('site')
+            ->add('site', EntityType::class, [
+                'class' => Site::class,
+                'choice_label' => 'nom',
+            ])
             //->add('sorties')
         ;
     }
