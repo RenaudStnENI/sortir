@@ -54,7 +54,7 @@ class EventController extends Controller
             $sortieForm->get('dateLimiteInscription')->addError(new FormError('La date de limite d\'inscription doit etre inferieur à la date de la sortie !'));
         }
         $title="add";
-        return $this->render('event/add.html.twig', ["sortieForm"=>$sortieForm->createView(),"title"=>$title, "lieu"=>$lieu, "ville"=>$ville]);
+        return $this->render('event/add.html.twig', ["sortieForm"=>$sortieForm->createView(),"title"=>$title]);
     }
 
     /**

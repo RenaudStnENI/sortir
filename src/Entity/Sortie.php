@@ -31,7 +31,7 @@ class Sortie
     private $dateHeureDebut;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $duree;
 
@@ -120,7 +120,7 @@ class Sortie
         return $this->duree;
     }
 
-    public function setDuree(\DateTime $duree): self
+    public function setDuree(int $duree): self
     {
         $this->duree = $duree;
 
