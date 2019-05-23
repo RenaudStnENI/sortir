@@ -8,19 +8,31 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class UserController extends Controller
 {
     /**
      * @Route("/sortir/monProfil", name="monProfil")
      */
-    public function monProfil (Request $request, EntityManagerInterface $em)
+    public function monProfil (Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
     {
-        $userRepo = $this->getDoctrine()->getRepository(User::class);
-        $user = $userRepo->find(1);
+        $user = $this->getUser();
 
         $userForm=$this->createForm(UserType::class,$user);
         $userForm->handleRequest($request);
+
+        if($userForm->isSubmitted() && $userForm->isValid()){
+            //hasher le mot de passe
+            $hashed=$encoder->encodePassword($user,$user->getPassword());
+            $user->setPassword($hashed);
+            //Enregistrer le user dans la BD
+            $em->persist($user);
+            $em->flush();
+            $this->addFlash("success","Votre compte a été modifié");
+            $this->redirectToRoute('monProfil');
+        }
 
         return $this->render("user/monProfil.html.twig",
             ["userForm"=>$userForm->createView()]);
@@ -29,9 +41,16 @@ class UserController extends Controller
 
     /**
      * security.yaml on a login_path: login
-     * @Route("/login", name="login")
+     * @Route("/", name="login")
      */
-    public function login() {
+    public function login(AuthenticationUtils $authUtils) {
+
+        $erreur = $authUtils->getLastAuthenticationError();
+
+        if ($erreur!=null)
+        {
+            $this->addFlash("error","L'identifiant et/ou le mot de passe sont incorrects");
+        }
         return $this->render("user/login.html.twig",
             []);
     }

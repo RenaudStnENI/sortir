@@ -2,10 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\Etat;
+use App\Entity\Lieu;
 use App\Entity\Sortie;
+use App\Entity\Ville;
 use App\Form\SortieType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -49,7 +54,7 @@ class EventController extends Controller
             $sortieForm->get('dateLimiteInscription')->addError(new FormError('La date de limite d\'inscription doit etre inferieur à la date de la sortie !'));
         }
         $title="add";
-        return $this->render('event/add.html.twig', ["sortieForm"=>$sortieForm->createView(),"title"=>$title]);
+        return $this->render('event/add.html.twig', ["sortieForm"=>$sortieForm->createView(),"title"=>$title, "lieu"=>$lieu, "ville"=>$ville]);
     }
 
     /**
