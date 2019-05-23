@@ -1,0 +1,43 @@
+{% extends ('layout.html.twig') %}
+
+{% block title %}{{ parent() }}   |   {{ title }}{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <div class="row">
+
+
+            <div class="col-sm-4 " style="margin-top: 30px;margin-bottom: 50px">
+
+                {{ form_start(search_form) }}
+                {{ form_widget(search_form) }}
+                {{ form_end(search_form) }}
+            </div>
+
+            {#            <h3 class="text-center" style="margin-bottom: 30px">Actuellement {{ events|length }} sorties</h3>#}
+            <div class="col-sm-1"></div>
+            <div class="col-sm-7 " style="margin-top: 30px;margin-bottom: 50px">
+                {% for event in events %}
+
+
+                    <h5 class="text-center text-danger">{{ loop.index }}/{{ loop.length }}
+                        : {{ event.nom }}</h5>
+                    <h6 style="margin-top: 20px"><span class="text text-success"
+                        >nombre max {{ event.nbInscriptionsMax }} </span>| {{ event.dateLimiteInscription|date() }}
+                    </h6>
+                    <small>{{ event.infosSortie }}</small>
+
+                    <div class="offset-4 col-4 " style="margin-top: 20px;margin-bottom: 20px">
+                        <a href="{{ path("details",{'id':event.id}) }}"
+                           class="btn btn-sm btn-outline-primary btn-block">Détails</a>
+                    </div>
+
+
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
+
