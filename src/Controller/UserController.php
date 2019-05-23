@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\UserType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -38,6 +39,21 @@ class UserController extends Controller
             ["userForm"=>$userForm->createView()]);
 
     }
+
+    // à ajouter dan le .twig href="{{ path('afficherProfil',{'id':user.id}) }}"
+
+    /**
+     * @Route("/sortir/profil/{id}",name="profil",requirements={"id"="\d+"})
+     * @Template()
+     */
+    public function Profil($id)
+    {
+        $userRepo=$this->getDoctrine()->getRepository(User::class);
+        $userDetail=$userRepo->find($id);
+
+        return ['userDetail'=>$userDetail] ;
+    }
+
 
     /**
      * security.yaml on a login_path: login
