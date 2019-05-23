@@ -19,7 +19,7 @@
                     <small class="card-text">{{ event.infosSortie }}</small>
 
                     <div class="offset-4 col-4 " style="margin-top: 20px">
-                        <a href="#"
+                        <a href="{{ path("details",{'id':event.id}) }}"
                            class="card-link btn btn-outline-primary btn-block">Détails</a>
                     </div>
                 </div>
