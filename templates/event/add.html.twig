@@ -49,10 +49,15 @@
             {{ form_errors(sortieForm.lieu) }}
         </div>
         <div>
+            <p id="infoLieu"></p>
+            <p id="infoLatitude"></p>
+            <p id="infoLongitude"></p>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d1312.4970736863759!2d2.2938596825819397!3d48.85832199367494!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1stour+effeil!5e0!3m2!1sfr!2sfr!4v1558616868500!5m2!1sfr!2sfr" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+            <p id="carte"></p>
 
         </div>
         <div>
-
+            <p id="infoVille"></p>
         </div>
 
         <div>
@@ -60,27 +65,57 @@
             {{ app.user.site.nom }}
         </div>
         <div>
-            <button name="enregistrer" type="submit">Enregistrer</button>
+            {{ form_label(sortieForm.enregistrer) }}
+            {{ form_widget(sortieForm.enregistrer) }}
             {{ form_label(sortieForm.publier) }}
             {{ form_widget(sortieForm.publier) }}
-            <!--<button name="publier" type="submit">Publier la sortie</button>-->
             {{ form_end(sortieForm) }}
             <a href="{{ path('list') }}" ><button type="button">Annuler</button></a>
         </div>
     </div>
     <script>
-        $('#sortie_ville').onchange(function(e) {
-            var cp = $('#cp').val();
+        $( document ).ready(function() {
+            $('#sortie_ville').change();
+        });
+
+        $('#sortie_ville').change(function(e) {
+            var choix = $(this).val();
             $.ajax({
-                url: "villes.php?cp="+cp,
-                cache: false
-            })
-                .done(function( data ) {
-                    $('#villes').empty();
-                    data.forEach(function(ville) {
-                        $('#villes').append($('<li>'+ville+'</li>'));
+                url: "{{ path('requeteAjax') }}",
+                type: 'POST',
+                dataType: 'json',
+                data: { 'choix' : choix},
+                async: true,
+                success: function (data) {
+                    $('#sortie_lieu').empty();
+                    $.each(data, function (id, lieu) {
+                        $('#sortie_lieu').append($('<option value="'+ id + '">' + lieu + '</option>'))
                     });
-                });
+                    $('#sortie_lieu').change();
+                }
+            });
+            e.preventDefault();
+        });
+
+    </script>
+
+    <script>
+        $('#sortie_lieu').change(function(e) {
+            var detailLieu = $(this).val();
+            $.ajax({
+                url: "{{ path('requeteLieu') }}",
+                type: 'POST',
+                dataType: 'json',
+                data: { 'detailLieu' : detailLieu},
+                async: true,
+                success: function (data) {
+                    //console.log(data);
+                    $('#infoLieu').text('Adresse : ' + data.rue);
+                    $('#infoLatitude').text('Latitude : ' + data.longitude);
+                    $('#infoLongitude').text('Longitude : ' + data.latitude);
+                    $('#infoVille').text('Code Postal : ' + data.cp)
+                }
+            });
             e.preventDefault();
         });
     </script>

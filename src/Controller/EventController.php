@@ -10,8 +10,8 @@ use App\Form\SortieType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormError;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class EventController extends Controller
@@ -38,7 +38,7 @@ class EventController extends Controller
                     $sortie->setEtat($etat);
                     $em->persist($sortie);
                     $em->flush();
-                    $this->addFlash('success', 'La sortie est bien ajoutée !');
+                    $this->addFlash('success', 'La sortie est bien publié !');
                     return $this->redirectToRoute("list");
                 }elseif ($sortieForm->get('enregistrer')->isClicked()){
                     $etat = $this->getDoctrine()->getManager()->getReference(Etat::class, 1);
@@ -76,17 +76,19 @@ class EventController extends Controller
     }
 
     /**
-     * @Route("/sortir/add/requeteCp", name="requeteCp")
+     * @Route("/sortir/add/requeteLieu", name="requeteLieu")
      */
-    public function requeteCp(Request $request, EntityManagerInterface $em){
-        $selectCp = $request->request->get('cp');
-        $codePostal = $em->getRepository(Ville::class)->findBy(array('ville'=>$selectCp));
+    public function requeteLieu(Request $request, EntityManagerInterface $em){
+        $infoLieu = $request->request->get('detailLieu');
+        $detail = $em->getRepository(Lieu::class)->find($infoLieu);
 
-        $cpTab = [];
-        foreach ($codePostal as $liste){
-            $cpTab[$liste->getNom()] = $liste->getCp();
-        }
-        $response = new Response(json_encode($cpTab));
+        $lieu = [
+          'rue' => $detail->getRue(),
+           'latitude' => $detail->getLatitude(),
+            'longitude' => $detail->getLongitude()
+        ];
+
+        $response = new Response(json_encode($lieu));
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
@@ -100,13 +102,13 @@ class EventController extends Controller
     public function details(Sortie $sortie)
     {
 
-//        $user = $this->getUser()->getUsername();
+        $user_session = $this->getUser()->getId();
         $title = "Détails";
         //$sortie=$ideaRepo->find($id);
 
         return $this->render("event/details.html.twig",
 //            ["user_session"=>$user,"title" => $title, "sortie" => $sortie]);
-            ["title" => $title, "sortie" => $sortie]);
+            ["title" => $title, "sortie" => $sortie,"user_session"=>$user_session]);
 
     }
 
