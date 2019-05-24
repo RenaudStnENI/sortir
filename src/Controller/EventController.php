@@ -93,5 +93,68 @@ class EventController extends Controller
 
         return $response;
     }
+
+
+/**
+     * @Route("/sortir/details/{id}",name="details",requirements={"id":"\d+"})
+     */
+
+    public function details(Sortie $sortie)
+    {
+
+        $user_session = $this->getUser()->getId();
+        $title = "Détails";
+        //$sortie=$ideaRepo->find($id);
+
+        return $this->render("event/details.html.twig",
+//            ["user_session"=>$user,"title" => $title, "sortie" => $sortie]);
+            ["title" => $title, "sortie" => $sortie,"user_session"=>$user_session]);
+
+    }
+
+    /**
+     * @Route("/sortir/detail/inscription/{id}", name="inscription_sortie")
+     */
+    public function inscription_sortie($id,EntityManagerInterface $em)
+    {
+
+        $sortie = $em->getRepository(Sortie::class)->find($id);
+
+
+
+        //TODO !!!!
+
+
+//        return $this->redirectToRoute("details",
+//            ['sortie'=>$sortie]);
+
+
+    }
+
+    /**
+     * @Route("/sortir/detail/desistement/{id}", name="desistement_sortie")
+     */
+    public function desistement_sortie($id,EntityManagerInterface $em)
+    {
+
+        $sortie = $em->getRepository(Sortie::class)->find($id);
+
+
+
+        //TODO !!!!
+
+
+//        return $this->redirectToRoute("details",
+//            ['sortie'=>$sortie]);
+
+
+    }
+
+
+
+
+
+
+
 }
 
