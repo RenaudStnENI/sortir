@@ -61,21 +61,20 @@ class SortieRepository extends ServiceEntityRepository
     public function searchSorties($criteres): array
     {
 
-
+        $user_session = $this->tokenStorage->getToken()->getUser()->getId();
 
         $qb = $this->createQueryBuilder('s');
-        $user_session = $this->tokenStorage->getToken()->getUser()->getId();
-        dump($user_session);
+
+
+        $champs = $qb->Where('s.nom like :nom')
+            ->setParameter('nom', '%' . $criteres['nom'] . '%');
 
 
         if ($criteres['site'] != '' && $criteres['site'] != NULL) {
             $qb->leftJoin('s.site', 'site')
-                ->Where('site.id = :site')
+                ->andWhere('site.id = :site')
                 ->setParameter('site', $criteres['site']);
         }
-
-        $qb->andWhere('s.nom like :nom')
-            ->setParameter('nom', '%' . $criteres['nom'] . '%');
 
         if ($criteres['dateMin'] != '' && $criteres['dateMin'] != NULL) {
             $qb->andWhere('s.dateHeureDebut > :dateMin')
@@ -87,27 +86,42 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('dateMax', $criteres['dateMax']);
         };
 
+        //-----------------
 
-        if ($criteres['isOrganisateur'] == true) {
-            $qb->andWhere('s.organisateur = :user_session')
-                ->setParameter('user_session', $user_session);
-        };
-        if ($criteres['isInscrit'] == true) {
-            $qb->join('s.users', 'u', 'WITH', 'u.id = :user_session')
-                ->setParameter('user_session', $user_session);
-        };
 
-//        if ($criteres['isNotInscrit'] == true) {
-//
-//
-//          todo!!!!
-//
-//        };
-        
-        if ($criteres['sortiesPassees'] ==true) {
-            $qb->andWhere('s.dateHeureDebut < :now')
-                ->setParameter('now', new \DateTime());
-        };
+
+        if($criteres['isOrganisateur'] or $criteres['isInscrit'] or $criteres['isNotInscrit'] or $criteres['sortiesPassees']){
+
+//            $condition = $this->createQueryBuilder('s');
+
+            if ($criteres['isOrganisateur']) {
+
+                $qb->orWhere('s.organisateur = :user_session')
+                    ->setParameter('user_session', $user_session);
+            };
+            if ($criteres['isInscrit']) {
+                $qb->join('s.users', 'i', 'WITH', 'i.id = :user_session')
+                    ->setParameter('user_session', $user_session);
+            };
+
+            if ($criteres['isNotInscrit']) {
+
+                $dql = $this->createQueryBuilder('a');
+                $dql->innerJoin('a.users', 'u')
+                    ->where($qb->expr()->eq('u.id', $user_session));
+
+                $qb->orWhere($qb->expr()->notIn('s.id', $dql->getDQL()));
+            };
+
+            if ($criteres['sortiesPassees']) {
+                $qb->orWhere('s.dateHeureDebut < :now')
+                    ->setParameter('now', new \DateTime());
+            };
+
+//            $qb->andWhere(':condition')
+//            ->setParameter('condition', $condition);
+
+        }
 
 
         $qb->orderBy('s.dateHeureDebut', 'desc');
@@ -116,5 +130,4 @@ class SortieRepository extends ServiceEntityRepository
     }
 
 }
-
 

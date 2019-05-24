@@ -11,7 +11,7 @@
             </div>
             <div class="col-sm-8">
 
-                <div class="jumbotron">
+                <div class="container" style="margin-bottom: 100px">
 
                     <h1>{{ app.user.prenom }}, complétez les champs suivants pour changer votre mot de passe</h1>
 
@@ -34,22 +34,34 @@
                             <br>
                         </div>
 
-                        <div>
-                            <button type="submit" class="btn btn-primary">valider</button>
+
+                        <div class="offset-3 col-6 ">
+                            <button type="submit"
+                                    class="btn btn-outline-danger btn-block">valider
+                            </button>
+                            <a href="{{ path('monProfil') }}"
+                               class="btn btn-outline-primary btn-block"
+                               style="margin-top: 10px">retour</a>
                         </div>
+
 
                         {{ form_end(form) }}
 
 
                     </div>
 
+
                 </div>
 
             </div>
-            <div class="col-sm-2">
 
-            </div>
         </div>
+
+        <div class="col-sm-2" >
+        </div>
+
+
+    </div>
     </div>
 
 {% endblock %}
