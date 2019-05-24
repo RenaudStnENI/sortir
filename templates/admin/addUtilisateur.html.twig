@@ -11,7 +11,7 @@
             </div>
             <div class="col-sm-8">
 
-                <div class="jumbotron">
+                <div class="container" style="margin-bottom: 100px">
 
                     <h1>Bonjour {{ app.user.prenom }}, souhaitez-vous ajouter un utilisateur ?</h1>
 
@@ -82,14 +82,22 @@
                             {{ form_errors(userForm.password) }}
                         </div>
 
-                        <div>
-                            <button type="submit" class="btn btn-primary">valider</button>
+
+
+                        <div class="offset-3 col-6 ">
+                            <button type="submit"
+                                    class="btn btn-outline-primary btn-block">valider
+                            </button>
+                            <a href="{{ path('list')}}"
+                               class="btn btn-outline-danger btn-block"
+                               style="margin-top: 10px">retour</a>
                         </div>
 
                         {{ form_end(userForm) }}
 
 
                     </div>
+
 
 
 

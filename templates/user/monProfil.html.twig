@@ -11,7 +11,7 @@
         </div>
         <div class="col-sm-8">
 
-            <div class="jumbotron">
+            <div class="container" style="margin-bottom: 100px">
 
                 <h1>Bonjour {{ app.user.prenom }}, souhaitez-vous modifier votre profil ?</h1>
 
@@ -77,8 +77,10 @@
                         <br>
                     </div>
 
-                    <div>
-                        <button type="submit" class="btn btn-primary">valider</button>
+                    <div class="offset-3 col-6 ">
+                        <button type="submit"
+                                class="btn btn-outline-primary btn-block">valider
+                        </button>
                     </div>
 
                     {{ form_end(userForm) }}
@@ -87,8 +89,15 @@
                     <div>
                     <p><h4>Souhaitez-vous modifier votre mot de passe ?</h4></p>
                     </div>
-                    <div>
-                      <a href="{{ path('changerMotDePasse') }}"> <button class="btn btn-primary" >valider</button></a>
+
+
+                    <div class="offset-3 col-6 ">
+                        <a href="{{ path('changerMotDePasse') }}"
+                           class="btn btn-outline-primary btn-block"
+                           style="margin-top: 10px">valider</a>
+                        <a href="{{ path('list')}}"
+                           class="btn btn-outline-danger btn-block"
+                           style="margin-top: 10px">retour</a>
                     </div>
 
 
