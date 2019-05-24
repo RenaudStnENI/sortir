@@ -57,7 +57,7 @@
 
         </div>
         <div>
-
+            <p id="infoVille"></p>
         </div>
 
         <div>
@@ -98,6 +98,7 @@
         });
 
     </script>
+
     <script>
         $('#sortie_lieu').change(function(e) {
             var detailLieu = $(this).val();
@@ -112,6 +113,7 @@
                     $('#infoLieu').text('Adresse : ' + data.rue);
                     $('#infoLatitude').text('Latitude : ' + data.longitude);
                     $('#infoLongitude').text('Longitude : ' + data.latitude);
+                    $('#infoVille').text('Code Postal : ' + data.cp)
                 }
             });
             e.preventDefault();
