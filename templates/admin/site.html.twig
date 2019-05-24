@@ -1,0 +1,48 @@
+{% extends ('layout.html.twig') %}
+
+{% block title %}{{ parent() }} mon Profil{% endblock %}
+
+{% block main %}
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col-sm-3">
+            </div>
+
+            <div class="col-sm-6">
+
+                <div class="container">
+
+                    <p>
+                    <h1>Liste des sites</h1></p>
+                    <br>
+
+                    <table class="table">
+
+
+                        {% for site in sites %}
+
+                            <tr>
+                                <td>{{ site.nom }}</td>
+                                <td><a href="">modifier</a></td>
+                                <td> |</td>
+                                <td><a href="">supprimer</a></td>
+                            </tr>
+
+                        {% endfor %}
+                    </table>
+                    <div>
+                        <a href="{{ path('list') }}"> <button class="btn btn-primary" >retour</button></a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-sm-3">
+
+
+        </div>
+    </div>
+
+{% endblock %}
