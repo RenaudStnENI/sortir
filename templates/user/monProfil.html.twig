@@ -19,7 +19,6 @@
                     <br>
                     {{ form_start(userForm) }}
 
-
                     <div class="group">
                         <div class="container"><img src="{{ app.user.photo }}" width="200px" height="200px"></div>
                         <br>
@@ -78,16 +77,21 @@
                         <br>
                     </div>
 
-                    <div class="group">
-                        {{ form_widget(userForm.password) }}
-                        {{ form_errors(userForm.password) }}
-                    </div>
-
                     <div>
                         <button type="submit" class="btn btn-primary">valider</button>
                     </div>
 
                     {{ form_end(userForm) }}
+
+
+                    <div>
+                    <p><h4>Souhaitez-vous modifier votre mot de passe ?</h4></p>
+                    </div>
+                    <div>
+                      <a href="{{ path('changerMotDePasse') }}"> <button class="btn btn-primary" >valider</button></a>
+                    </div>
+
+
 
 
                 </div>

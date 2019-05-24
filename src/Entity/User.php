@@ -7,10 +7,12 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(name="user")
+ * @UniqueEntity("username", message="Cet identifiant existe déjà, merci d'en choisir un autre.")
  */
 class User implements UserInterface
 
@@ -68,13 +70,13 @@ class User implements UserInterface
 
 
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string")
      */
     private $password;
 
     /**
      * @Assert\NotBlank(message="Le pseudo est obligatoire")
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $username;
 
@@ -83,7 +85,7 @@ class User implements UserInterface
 
     /**
      * @Assert\Length(max="2000", maxMessage="Maximum 2000 caractères")
-     * @ORM\Column(type="string", nullable=false, length=2000)
+     * @ORM\Column(type="string", nullable=false, length=2000, nullable=true)
      */
     private $photo;
 
@@ -342,7 +344,14 @@ class User implements UserInterface
 
     public function getRoles()
     {
-        return ["ROLE_USER"];
+        $roles = array('ROLE_USER');
+
+        if ($this->admin)
+        {
+            $roles[] = 'ROLE_ADMIN';
+        }
+
+        return $roles;
     }
 
 
