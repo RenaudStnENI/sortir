@@ -11,19 +11,33 @@
             <div class="card-body">
                 <h3 class="text text-info text-center font-weight-bold"
                     style="margin-bottom: 25px">{{ sortie.nom }}</h3>
-                <p class="text text-right text-secondary font-italic">Date lime d'inscription : {{ sortie.dateLimiteInscription|date() }} ||
+                <p class="text text-right text-secondary font-italic">Date lime d'inscription
+                    : {{ sortie.dateLimiteInscription|date() }} ||
                     durée : {{ sortie.duree }}h</p>
-                <p class="text text-right font-weight-bold">Nombre de participants max : {{ sortie.nbInscriptionsMax }}</p>
+                <p class="text text-right font-weight-bold">Nombre de participants max
+                    : {{ sortie.nbInscriptionsMax }}</p>
                 <p style="margin-top: 20px;margin-bottom: 30px">{{ sortie.infosSortie }}</p>
 
-                {#                {% if ((is_granted('IS_AUTHENTICATED_REMEMBERED'))and (user_session == choses.author)) %}#}
+
                 <div class="offset-3 col-6 ">
-                    <a href="{{ path("inscription_sortie",{'id':sortie.id}) }}" class="btn btn-outline-danger btn-block">S'inscrire</a>
-                    <a href="{{ path("desistement_sortie",{'id':sortie.id}) }}" class="btn btn-outline-primary btn-block"
+                    <a href="{{ path("inscription_sortie",{'id':sortie.id}) }}"
+                       class="btn btn-outline-danger btn-block">S'inscrire</a>
+                    <a href="{{ path("desistement_sortie",{'id':sortie.id}) }}"
+                       class="btn btn-outline-primary btn-block"
                        style="margin-top: 10px">Se désister</a>
                 </div>
 
-                {#                {% endif %}#}
+
+                {% if ((is_granted('IS_AUTHENTICATED_REMEMBERED'))and (user_session == sortie.organisateur)) %}
+                    <div class="offset-3 col-6 ">
+                        <a href="#"
+                           class="btn btn-outline-danger btn-block">Modifier</a>
+                        <a href="#"
+                           class="btn btn-outline-primary btn-block"
+                           style="margin-top: 10px">Supprimer</a>
+                    </div>
+
+                {% endif %}
             </div>
         </div>
     </div>

@@ -100,13 +100,13 @@ class EventController extends Controller
     public function details(Sortie $sortie)
     {
 
-//        $user = $this->getUser()->getUsername();
+        $user_session = $this->getUser()->getId();
         $title = "Détails";
         //$sortie=$ideaRepo->find($id);
 
         return $this->render("event/details.html.twig",
 //            ["user_session"=>$user,"title" => $title, "sortie" => $sortie]);
-            ["title" => $title, "sortie" => $sortie]);
+            ["title" => $title, "sortie" => $sortie,"user_session"=>$user_session]);
 
     }
 
