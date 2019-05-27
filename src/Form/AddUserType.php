@@ -17,6 +17,7 @@ class AddUserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+//            ->add('photo', FileType::class,array('mapped' => false))
             ->add('photo')
             ->add('nom')
             ->add('prenom')
