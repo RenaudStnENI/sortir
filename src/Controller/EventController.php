@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Etat;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
-use App\Entity\Ville;
+use App\Entity\User;
 use App\Form\AnnuleType;
 use App\Form\SortieType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -37,6 +37,7 @@ class EventController extends Controller
                 if ($sortieForm->get('publier')->isclicked()) {
                     $etat = $this->getDoctrine()->getManager()->getReference(Etat::class, 2);
                     $sortie->setEtat($etat);
+                    $sortie->addUser($this->getUser());
                     $em->persist($sortie);
                     $em->flush();
                     $this->addFlash('success', 'La sortie est bien publié !');
@@ -78,14 +79,17 @@ class EventController extends Controller
                     $em->flush();
                     $this->addFlash('success', 'La sortie est bien publié !');
                     return $this->redirectToRoute("list");
-                }elseif ($sortieForm->get('enregistrer')->isClicked()){
+                } elseif ($sortieForm->get('enregistrer')->isClicked() && $sortie->getEtat()->getId() <= 1) {
                     $etat = $this->getDoctrine()->getManager()->getReference(Etat::class, 1);
                     $sortie->setEtat($etat);
                     $em->persist($sortie);
                     $em->flush();
                     $this->addFlash('success', 'La sortie est bien enregistré !');
-                    return $this->redirectToRoute("list");
+                } elseif ($sortieForm->get('enregistrer')->isClicked() && $sortie->getEtat()->getId() > 1){;
+
                 }
+                    return $this->redirectToRoute("list");
+
             }
         }else{
             $sortieForm->get('dateLimiteInscription')->addError(new FormError('La date de limite d\'inscription doit etre inferieur à la date de la sortie !'));
@@ -136,56 +140,27 @@ class EventController extends Controller
      * @Route("/sortir/details/{id}",name="details",requirements={"id":"\d+"})
      */
 
-    public function details(Sortie $sortie)
+    public function details(EntityManagerInterface $em, Request $request,Sortie $sortie)
     {
+        $participants=$sortie->getUsers();
 
         $user_session = $this->getUser()->getId();
+
+        $id_orga= $sortie->getOrganisateur();
+        $userRepo = $this->getDoctrine()->getRepository(User::class);
+        $orga = $userRepo->find($id_orga);
+
         $title = "Détails";
         //$sortie=$ideaRepo->find($id);
 
         return $this->render("event/details.html.twig",
 //            ["user_session"=>$user,"title" => $title, "sortie" => $sortie]);
-            ["title" => $title, "sortie" => $sortie,"user_session"=>$user_session]);
-
-    }
-
-    /**
-     * @Route("/sortir/detail/inscription/{id}", name="inscription_sortie")
-     */
-    public function inscription_sortie($id,EntityManagerInterface $em)
-    {
-
-        $sortie = $em->getRepository(Sortie::class)->find($id);
-
-
-
-        //TODO !!!!
-
-
-//        return $this->redirectToRoute("details",
-//            ['sortie'=>$sortie]);
+            ["title" => $title, "sortie" => $sortie,"user_session"=>$user_session, 'participants'=>$participants, 'orga'=>$orga]);
 
 
     }
 
-    /**
-     * @Route("/sortir/detail/desistement/{id}", name="desistement_sortie")
-     */
-    public function desistement_sortie($id,EntityManagerInterface $em)
-    {
 
-        $sortie = $em->getRepository(Sortie::class)->find($id);
-
-
-
-        //TODO !!!!
-
-
-//        return $this->redirectToRoute("details",
-//            ['sortie'=>$sortie]);
-
-
-    }
 
     /**
      * @Route("/sortir/annule/{id}",name="sortie_annule",requirements={"id":"\d+"})
@@ -250,5 +225,20 @@ class EventController extends Controller
         return $this->redirectToRoute('list');
 
     }
+
+    /**
+     * @Route("/sortir/publierSortie{id}", name="publier")
+     */
+    public function publier(EntityManagerInterface $em, Sortie $sortie){
+        $etat = $this->getDoctrine()->getManager()->getReference(Etat::class, 3);
+        $sortie->setEtat($etat);
+
+        $em->flush();
+
+        $this->addFlash('success', 'Vous avez bien publié la sortie!');
+        return $this->redirectToRoute('list');
+
+    }
+
 }
 

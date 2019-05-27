@@ -1,3 +1,8 @@
 textarea{
     resize: none;
 }
+
+#map{
+    height: 400px;
+    width: 400px;
+}

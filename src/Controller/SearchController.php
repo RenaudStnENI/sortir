@@ -26,7 +26,6 @@ class SearchController extends Controller
         if ($searchSortieForm->isSubmitted() && $searchSortieForm->isValid()) {
             $criteres=$searchSortieForm->getData();
             $events=$sortieRepo->searchSorties($criteres);
-            dump($events);
 
         }
         else{
