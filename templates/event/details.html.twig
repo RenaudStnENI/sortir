@@ -9,34 +9,50 @@
     <div class="offset-sm-2 col-sm-8 " style="margin-top: 30px;margin-bottom: 400px">
         <div class="card">
             <div class="card-body">
-                <h3 class="text text-info text-center font-weight-bold"
-                    style="margin-bottom: 25px">{{ sortie.nom }}</h3>
-                <p class="text text-right text-secondary font-italic">Date lime d'inscription
-                    : {{ sortie.dateLimiteInscription|date() }} ||
-                    durée : {{ sortie.duree }}h</p>
-                <p class="text text-right font-weight-bold">Nombre de participants max
-                    : {{ sortie.nbInscriptionsMax }}</p>
+                <div>
+                    <h3 class="text text-info text-center font-weight-bold"
+                        style="margin-bottom: 25px">{{ sortie.nom }}</h3>
+                    <p class="text text-right text-secondary font-italic">Date et heure de l'événement
+                        : {{ sortie.dateHeureDebut|date() }} || durée : {{ sortie.duree }}h</p>
+                    <p class="text text-right font-weight-bold">Nombre de participants :
+                        /{{ sortie.nbInscriptionsMax }}</p>
+                    <p>Date limite d'inscription : {{ sortie.dateLimiteInscription|date() }}</p>
+                </div>
+                <p>Ville organisatrice : {{ sortie.site.nom }}</p>
+                <p>Ville de la sortie : {{ sortie.lieu.ville.nom }}</p>
+                <p>Lieu : {{ sortie.lieu.nom }}</p>
+                <p>Rue : {{ sortie.lieu.rue }}</p>
+                <p>Code postal : {{ sortie.lieu.ville.cp }}</p>
+                <p>Latitude : {{ sortie.lieu.latitude }}</p>
+                <p>Longitude : {{ sortie.lieu.longitude }}</p>
+                {% if ((is_granted('IS_AUTHENTICATED_REMEMBERED'))and (sortie.etat.libelle != 'annulée')) %}
+                    <p>Information relative à lévénement : </p>
+                {% else %}
+                    <p>Motif de l'annulation relative à lévénement : </p>
+                {% endif %}
                 <p style="margin-top: 20px;margin-bottom: 30px">{{ sortie.infosSortie }}</p>
 
 
-                <div class="offset-3 col-6 ">
-                    <a href="{{ path("inscription_sortie",{'id':sortie.id}) }}"
-                       class="btn btn-outline-danger btn-block">S'inscrire</a>
-                    <a href="{{ path("desistement_sortie",{'id':sortie.id}) }}"
-                       class="btn btn-outline-primary btn-block"
-                       style="margin-top: 10px">Se désister</a>
-                </div>
-
-
-                {% if ((is_granted('IS_AUTHENTICATED_REMEMBERED'))and (user_session == sortie.organisateur)) %}
+                {% if ((is_granted('IS_AUTHENTICATED_REMEMBERED'))and (sortie.etat.libelle != 'annulée')) %}
                     <div class="offset-3 col-6 ">
-                        <a href="#"
-                           class="btn btn-outline-danger btn-block">Modifier</a>
-                        <a href="#"
+                        <a href="{{ path("addParticipant",{'id':sortie.id}) }}"
+                           class="btn btn-outline-danger btn-block">S'inscrire</a>
+                        <a href="{{ path("removeParticipant",{'id':sortie.id}) }}"
                            class="btn btn-outline-primary btn-block"
-                           style="margin-top: 10px">Supprimer</a>
+                           style="margin-top: 10px">Se désister</a>
                     </div>
 
+
+                    {% if ((is_granted('IS_AUTHENTICATED_REMEMBERED'))and (user_session == sortie.organisateur)) %}
+                        <div class="offset-3 col-6 ">
+                            <a href="{{ path('sortie_modif',{'id':sortie.id}) }}"
+                               class="btn btn-outline-danger btn-block">Modifier</a>
+                            <a href="{{ path('sortie_annule',{'id':sortie.id}) }}"
+                               class="btn btn-outline-primary btn-block"
+                               style="margin-top: 10px">Supprimer</a>
+                        </div>
+
+                    {% endif %}
                 {% endif %}
             </div>
         </div>

@@ -21,15 +21,22 @@
 
                 <h5 class="text-center text-danger">{{ loop.index }}/{{ loop.length }}
                     : {{ event.nom }}</h5>
+                <div>
+                    {% if (event.etat.libelle == 'annulée') %}
+                        <p>La sortie est annulée !</p>
+                    {% endif %}
+                </div>
                 <h6 style="margin-top: 20px"><span class="text text-success"
-                    >nombre max {{ event.nbInscriptionsMax }} </span>| {{ event.dateLimiteInscription|date() }}
+                    >nombre de participant : /{{ event.nbInscriptionsMax }} </span>| Date et heure de l'événement : {{ event.dateHeureDebut|date() }} || durée : {{ event.duree }}h
                 </h6>
+                <p>Date limite d'inscription :  {{ event.dateLimiteInscription|date() }}</p>
                 <small>{{ event.infosSortie }}</small>
 
                 <div class="offset-4 col-4 " style="margin-top: 20px;margin-bottom: 20px">
                     <a href="{{ path("details",{'id':event.id}) }}"
                        class="btn btn-sm btn-outline-primary btn-block">Détails</a>
                 </div>
+
 
 
             {% endfor %}

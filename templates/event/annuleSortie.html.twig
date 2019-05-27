@@ -1,0 +1,36 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}{{ parent() }} | {{ title }}{% endblock %}
+
+{% block main %}
+    <div>
+        <h3>Annulée une sortie !</h3>
+    </div>
+
+    <p>Nom de la sortie : {{ sortie.nom }}</p>
+    <p>Date de la sortie : {{ sortie.dateHeureDebut|date() }}</p>
+    <p>Ville organisatrice : {{ app.user.site.nom }}</p>
+    <p>{{ sortie.lieu.nom }} {{ sortie.lieu.ville.cp }} {{ sortie.lieu.ville.nom }}</p>
+
+    <div>
+        <label>Site : </label>
+        {{ app.user.site.nom }}
+    </div>
+
+    <div>
+        {{ form_start(annuleForm) }}
+        <div>
+            {{ form_widget(annuleForm.infosSortie) }}
+            {{ form_errors(annuleForm.infosSortie) }}
+        </div>
+        <div>
+            {{ form_label(annuleForm.enregistrer) }}
+            {{ form_widget(annuleForm.enregistrer) }}
+        </div>
+
+            {{ form_end(annuleForm) }}
+            <a href="{{ path('list') }}" ><button type="button">Annuler</button></a>
+        </div>
+    </div>
+{% endblock %}
+
