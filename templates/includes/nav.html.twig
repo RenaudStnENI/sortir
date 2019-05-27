@@ -47,7 +47,7 @@
             <a class="nav-link" href="{{ path('monProfil') }}">Bonjour {{ app.user.username }} !</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ path('monProfil') }}"><img src="{{ app.user.photo }}" width="30px"
+            <a class="nav-link" href="{{ path('monProfil') }}"><img src="/sortir/public/photoUser/{{ app.user.username }}" width="30px"
                                                                     height="30px"
                                                                     style="  overflow:hidden; -webkit-border-radius:50px; -moz-border-radius:50px; border-radius:50px;"></a>
         </li>

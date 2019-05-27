@@ -8,6 +8,7 @@ use App\Entity\User;
 use PhpParser\Node\Stmt\Label;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -20,7 +21,7 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('photo', FileType::class,array('mapped' => false))
+            ->add('fichier', FileType::class, array('mapped' => false, 'required'=>false))
 //            ->add('photo')
             ->add('nom')
             ->add('prenom')
