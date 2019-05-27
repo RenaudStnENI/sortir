@@ -66,7 +66,7 @@ class SortieRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('s');
 
 
-        $champs = $qb->Where('s.nom like :nom')
+        $qb->Where('s.nom like :nom')
             ->setParameter('nom', '%' . $criteres['nom'] . '%');
 
 
@@ -92,16 +92,18 @@ class SortieRepository extends ServiceEntityRepository
 
         if($criteres['isOrganisateur'] or $criteres['isInscrit'] or $criteres['isNotInscrit'] or $criteres['sortiesPassees']){
 
-//            $condition = $this->createQueryBuilder('s');
+
+//            $conditions = $this->createQueryBuilder('s');
 
             if ($criteres['isOrganisateur']) {
+                $qb ->andWhere('s.organisateur = :user_session')
+                    ->setParameter('user_session', $user_session
+                );
 
-                $qb->orWhere('s.organisateur = :user_session')
-                    ->setParameter('user_session', $user_session);
             };
             if ($criteres['isInscrit']) {
-                $qb->join('s.users', 'i', 'WITH', 'i.id = :user_session')
-                    ->setParameter('user_session', $user_session);
+                $qb ->join('s.users', 'i', 'WITH', 'i.id = :user_session')
+                            ->setParameter('user_session', $user_session);
             };
 
             if ($criteres['isNotInscrit']) {
@@ -114,12 +116,9 @@ class SortieRepository extends ServiceEntityRepository
             };
 
             if ($criteres['sortiesPassees']) {
-                $qb->orWhere('s.dateHeureDebut < :now')
-                    ->setParameter('now', new \DateTime());
+                $qb ->andWhere('s.dateHeureDebut < :now')
+                            ->setParameter('now', new \DateTime());
             };
-
-//            $qb->andWhere(':condition')
-//            ->setParameter('condition', $condition);
 
         }
 
