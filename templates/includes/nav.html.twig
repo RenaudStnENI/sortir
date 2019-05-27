@@ -1,4 +1,3 @@
-
 </nav>
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: black">
 
@@ -7,39 +6,54 @@
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    <ul class="navbar-nav mr-auto">
+    <ul class="navbar-nav mr-auto col-10">
         <li class="nav-item">
-            <a class="nav-link" href="#">SORTIR.COM</a>
+            <a class="nav-link" href="{{ path('list') }}">SORTIR.COM </a>
         </li>
 
-        {% if is_granted ('IS_AUTHENTICATED_REMEMBERED')%}
+        {% if is_granted ('IS_AUTHENTICATED_REMEMBERED') %}
 
 
-        {% if is_granted('ROLE_ADMIN') %}
+            {% if is_granted('ROLE_ADMIN') %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('ville') }}">Villes </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('site') }}">Sites </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('addUtilisateur') }}">Nouvel utilisateur </a>
+                </li>
+
+            {% endif %}
             <li class="nav-item">
-                <a class="nav-link" href="{{ path('ville') }}">Villes</a>
+                <a class="nav-link" href="{{ path('list') }}">Liste des sorties </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ path('site') }}">Sites </a>
+                <a class="nav-link" href="{{ path('add') }}">Nouvelle sortie </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ path('addUtilisateur') }}">Nouvel utilisateur </a>
+                <a class="nav-link" href="{{ path('monProfil') }}">Mon profil </a>
+            </li>
+            <li class="nav-item">
+            <li><a class="nav-link" href="{{ path('logout') }}">Déconnexion </a></li>
             </li>
 
-        {% endif %}
-        <li class="nav-item">
-            <a class="nav-link" href="{{ path('list') }}">Liste des sorties</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ path('add') }}">Nouvelle sortie </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ path('monProfil') }}">Mon profil</a>
-        </li>
-        <li class="nav-item">
-        <li><a class="nav-link" href="{{ path('logout') }}">Déconnexion</a></li>
-        </li>
-        {% endif %}
 
     </ul>
+
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('monProfil') }}">Bonjour {{ app.user.username }} !</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('monProfil') }}"><img src="/sortir/public/photoUser/{{ app.user.username }}" width="30px"
+                                                                    height="30px"
+                                                                    style="  overflow:hidden; -webkit-border-radius:50px; -moz-border-radius:50px; border-radius:50px;"></a>
+        </li>
+    </ul>
+
+    {% endif %}
+
+
 </nav>

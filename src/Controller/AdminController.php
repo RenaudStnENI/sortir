@@ -29,6 +29,18 @@ class AdminController extends Controller
         $userForm->handleRequest($request);
 
         if($userForm->isSubmitted() && $userForm->isValid()){
+
+            // Enregistrer fichier photo
+
+            $username = $userForm->get('username')->getData();
+            $fichier = $userForm->get('fichier')->getNormData();
+
+            if ($fichier->isValid())
+            {
+                $fichier->move($this->getParameter('photo_directory'),$username);
+            }
+
+
             //hasher le mot de passe
             $hashed=$encoder->encodePassword($user,$user->getPassword());
             $user->setPassword($hashed);

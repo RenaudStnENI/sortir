@@ -28,19 +28,30 @@ class UserController extends Controller
         $userForm->handleRequest($request);
 
         if ($userForm->isSubmitted() && $userForm->isValid()) {
+
+            // Enregistrer fichier photo
+
+            $username = $userForm->get('username')->getData();
+            $fichier = $userForm->get('fichier')->getNormData();
+            if ($fichier)
+            {
+                $fichier->move($this->getParameter('photo_directory'), $username);
+            }
+
             //Enregistrer le user dans la BD
-            $em->persist($user);
-            $em->flush();
-            $this->addFlash("success", "Votre compte a été modifié");
-            $this->redirectToRoute('monProfil');
-        }
+
+                $em->persist($user);
+                $em->flush();
+                $this->addFlash("success", "Votre compte a été modifié");
+                $this->redirectToRoute('monProfil');
+            }
+
 
         return $this->render("user/monProfil.html.twig",
             ["userForm" => $userForm->createView()]);
-
     }
 
-    // à ajouter dan le .twig href="{{ path('afficherProfil',{'id':user.id}) }}"
+
 
     /**
      * @Route("/sortir/profil/{id}",name="profil",requirements={"id"="\d+"})
