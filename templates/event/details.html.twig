@@ -17,6 +17,7 @@
                     <p class="text text-right font-weight-bold">Nombre de participants : {{ participants|length }}
                         / {{ sortie.nbInscriptionsMax }} places</p>
 
+                    <p>La sortie est : {{ sortie.etat.libelle }}</p>
                     <p>Date limite d'inscription : {{ sortie.dateLimiteInscription|date() }}</p>
                 </div>
                 <p>organistaeur : <a href="{{ path('profil',{'id':orga.id}) }}">{{ orga.nom }}</a></p>
@@ -39,9 +40,13 @@
                     {% for participant in participants %}
                         <div class="row border">
                             <div class="col-1">
-                                <img src="{{ participant.photo }}" width="auto" height="20px">
+                                <a href="{{ path('profil', {'id':participant.id}) }}"><img src="{{ participant.photo }}"
+                                                                                           width="auto"
+                                                                                           height="20px"></a>
                             </div>
-                            <div class="col-2">{{ participant.username }}</div>
+                            <a href="{{ path('profil', {'id':participant.id}) }}">
+                                <div class="col-12">{{ participant.username }}</div>
+                            </a>
                         </div>
                         <br>
                     {% endfor %}
@@ -53,43 +58,45 @@
                     {% endif %}
                 </div>
 
-
-                {% if ((is_granted('IS_AUTHENTICATED_REMEMBERED'))and (sortie.etat.libelle != 'annulée')) %}
-                    <div class="offset-3 col-6 ">
+                <div class="offset-3 col-6 ">
 
 
-                        {% if app.user.id  == sortie.organisateur and sortie.etat.id == 1 %}
-                            <a href="{{ path("publier",{'id':sortie.id}) }}"
-                               class="btn btn-outline-success btn-block">Publier</a>
-                        {% endif %}
-                        {% if app.user.id != sortie.organisateur %}
-                            {% if app.user not in participants %}
-                                <a href="{{ path("addParticipant",{'id':sortie.id}) }}"
-                                   class="btn btn-outline-danger btn-block">S'inscrire</a>
-                            {% endif %}
+                    {% if app.user.id  == sortie.organisateur and sortie.etat.id == 1 %}
+                        <a href="{{ path("publier",{'id':sortie.id}) }}"
+                           class="btn btn-outline-success btn-block">Publier</a>
+                    {% endif %}
+                    {% if (sortie.etat.id == 3) %}
 
-                            {% if app.user in participants %}
-                                <a href="{{ path("removeParticipant",{'id':sortie.id}) }}"
-                                   class="btn btn-outline-primary btn-block"
-                                   style="margin-top: 10px">Se désister</a>
-                            {% endif %}
+                        {% if app.user not in participants  and (sortie.users.count < sortie.nbInscriptionsMax) %}
+                            <a href="{{ path("addParticipant",{'id':sortie.id}) }}"
+                               class="btn btn-outline-danger btn-block">S'inscrire</a>
                         {% endif %}
 
+                        {% if app.user in participants %}
+                            <a href="{{ path("removeParticipant",{'id':sortie.id}) }}"
+                               class="btn btn-outline-primary btn-block"
+                               style="margin-top: 10px">Se désister</a>
+                        {% endif %}
 
-                    </div>
+                    {% endif %}
 
 
-                    {% if ((is_granted('IS_AUTHENTICATED_REMEMBERED'))and (user_session == sortie.organisateur)) %}
+                </div>
+
+
+                {% if ((sortie.etat.id <= 3)and (user_session == sortie.organisateur)) %}
+                    {% if app.user.id == sortie.organisateur %}
                         <div class="offset-3 col-6 ">
                             <a href="{{ path('sortie_modif',{'id':sortie.id}) }}"
                                class="btn btn-outline-danger btn-block">Modifier</a>
                             <a href="{{ path('sortie_annule',{'id':sortie.id}) }}"
                                class="btn btn-outline-primary btn-block"
-                               style="margin-top: 10px">Supprimer</a>
+                               style="margin-top: 10px">Annuler la sortie</a>
                         </div>
-
                     {% endif %}
                 {% endif %}
+
+
             </div>
         </div>
     </div>
