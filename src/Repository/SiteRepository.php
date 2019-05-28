@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Site;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use mysql_xdevapi\Result;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -18,6 +19,32 @@ class SiteRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Site::class);
     }
+
+
+    public function getUserFromSite ($id)
+
+    {
+        $em = $this->getEntityManager();
+        $dql =
+
+            'SELECT (id) FROM App\Entity\User 
+             JOIN App\Entity\Site  
+             WHERE user(id) ='.$id.'AND site(id) ='.$id ;
+        $query = $em->createQuery($dql);
+        $result = $query->getResult();
+
+        return $result;
+    }
+
+
+
+
+
+
+
+
+
+
 
     // /**
     //  * @return Site[] Returns an array of Site objects

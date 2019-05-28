@@ -1,52 +1,59 @@
 {% extends ('layout.html.twig') %}
 
-{% block title %}{{ parent() }} mon Profil{% endblock %}
+{% block title %}{{ parent() }} | Profil{% endblock %}
 
 {% block main %}
 
     <div class="container">
-        <div class="row">
+    <div class="row">
 
-            <div class="col-sm-2">
+    <div class="col-sm-4">
+    </div>
+
+    <div class="col-sm-4">
+        <div class="container">
+
+            <div class="container"><img src="/sortir/public/photoUser/{{ userDetail.username }}" width="auto"
+                                        height="auto"></div>
+
+            <div class="container">
+                <p>
+                <h1>Profil de {{ userDetail.username }}</h1></p>
+
+                <table class="table">
+
+
+                    <tr>
+                        <td>PRENOM</td>
+                        <td> |</td>
+                        <td>{{ userDetail.prenom }}</td>
+                    </tr>
+                    <tr>
+                        <td>NOM</td>
+                        <td> |</td>
+                        <td>{{ userDetail.nom }}</td>
+                    </tr>
+                    <tr>
+                        <td>E-MAIL</td>
+                        <td> |</td>
+                        <td>{{ userDetail.mail }}</td>
+                    </tr>
+                    <tr>
+                        <td>SITE</td>
+                        <td> |</td>
+                        <td>{{ userDetail.site.nom }}</td>
+                    </tr>
+
+                </table>
             </div>
 
-            <div class="col-sm-8">
-                <div class="container">
 
-                    <div class="container"><img src="{{ userDetail.photo }}" width="200px" height="200px"></div>
-
-                    <p><h1>Profil de {{ userDetail.username}}</h1></p>
-
-                    <div>
-                        <p>Prénom :</p>
-                        <p><h3> {{ userDetail.prenom }} </h3></p>
-                    </div>
-
-                    <div>
-                        <p>Nom :</p>
-                        <p><h3> {{ userDetail.nom }}</h3></p>
-                    </div>
-
-                    <div>
-                        <p>E-mail :</p>
-                        <p><h3>  {{ userDetail.mail }}</h3></p>
-                    </div>
-
-                    <div>
-                        <p>Site :</p>
-                        <p><h3>{{ userDetail.site.nom }}</h3> </p>
-                    </div>
-
-                    <br>
-                    <div>
-                        <a href="{{ path('list') }}"> <button class="btn btn-primary" >retour</button></a>
-                    </div>
-
-                </div>
+            <div class="offset-3 col-6 ">
+                <a href="{{ path('list') }}"
+                   class="btn btn-outline-danger btn-block"
+                   style="margin-top: 10px">retour</a>
             </div>
 
-            <div class="col-sm-2">
-            </div>
 
 
         </div>
