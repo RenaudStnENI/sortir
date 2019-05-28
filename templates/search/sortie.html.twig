@@ -6,62 +6,140 @@
 
     <div class="row">
 
-        <div class="col-sm-4 " style="margin-top: 30px;margin-bottom: 50px">
+        <h6 class="col-12 text-center text-success" style="margin-bottom: 30px">Actuellement {{ events|length }}
+            sorties</h6>
+
+
+        <div class="col-sm-3 " style="margin-bottom: 50px">
 
             {{ form_start(search_form) }}
             {{ form_widget(search_form) }}
             {{ form_end(search_form) }}
         </div>
 
-        {#            <h3 class="text-center" style="margin-bottom: 30px">Actuellement {{ events|length }} sorties</h3>#}
-        <div class="col-sm-1"></div>
-        <div class="col-sm-7" style="margin-top: 30px;margin-bottom: 50px">
-            {% for event in events %}
-                {% if event.etat.id == 1 and event.organisateur==app.user.id %}
 
-                    <h5 class="text-center text-danger">{{ loop.index }}/{{ loop.length }}
-                        : {{ event.nom }}</h5>
-                    <div>
-                        {% if (event.etat.libelle == 'annulée') %}
-                            <p>La sortie est annulée !</p>
-                        {% endif %}
-                    </div>
-                    <h6 style="margin-top: 20px">
-                        <span class="text text-success">
-                                nombre de participant : {{ event.users|length }} / {{ event.nbInscriptionsMax }} places </span>| Date et heure de l'événement
-                        : {{ event.dateHeureDebut|date() }} || durée : {{ event.duree }}h
-                    </h6>
-                    <p>Date limite d'inscription : {{ event.dateLimiteInscription|date() }}</p>
-                    <small>{{ event.infosSortie }}</small>
+        {#        <div class="col-sm-1"></div>#}
 
-                    <div class="offset-4 col-4 " style="margin-top: 20px;margin-bottom: 20px">
-                        <a href="{{ path("details",{'id':event.id}) }}"
-                           class="btn btn-sm btn-outline-primary btn-block">Détails</a>
-                    </div>
 
-                {% elseif event.etat.id != 1 %}
-                    <h5 class="text-center text-danger">{{ loop.index }}/{{ loop.length }}
-                        : {{ event.nom }}</h5>
-                    <div>
-                        {% if (event.etat.libelle == 'annulée') %}
-                            <p>La sortie est annulée !</p>
-                        {% endif %}
-                    </div>
-                    <h6 style="margin-top: 20px"><span class="text text-success"
-                        >nombre de participant : {{ event.users|length }} / {{ event.nbInscriptionsMax }} places </span>| Date et heure de l'événement
-                        : {{ event.dateHeureDebut|date() }} || durée : {{ event.duree }}h
-                    </h6>
-                    <p>Date limite d'inscription : {{ event.dateLimiteInscription|date() }}</p>
-                    <small>{{ event.infosSortie }}</small>
+        {#    <div class="col-sm-7" style="margin-top: 30px;margin-bottom: 50px">#}
+        {#        {% for event in events %}#}
+        {#            {% if event.etat.id == 1 and event.organisateur==app.user.id %}#}
 
-                    <div class="offset-4 col-4 " style="margin-top: 20px;margin-bottom: 20px">
-                        <a href="{{ path("details",{'id':event.id}) }}"
-                           class="btn btn-sm btn-outline-primary btn-block">Détails</a>
-                    </div>
-                {% endif %}
+        {#                <h5 class="text-center text-primary">{{ event.nom }}</h5>#}
+        {#                <div>#}
+        {#                    {% if (event.etat.libelle == 'annulée') %}#}
+        {#                        <p class="text text-danger">La sortie est annulée !</p>#}
+        {#                    {% endif %}#}
+        {#                </div>#}
+        {#                <h6 style="margin-top: 20px">#}
+        {#                            <span class="text text-success">#}
+        {#                                    nombre de participant : {{ event.users|length }} / {{ event.nbInscriptionsMax }} places </span>|#}
+        {#                    Date et heure de l'événement#}
+        {#                    : {{ event.dateHeureDebut|date() }} || durée : {{ event.duree }}h#}
+        {#                </h6>#}
+        {#                <p>Date limite d'inscription : {{ event.dateLimiteInscription|date() }}</p>#}
+        {#                <small>{{ event.infosSortie }}</small>#}
 
-            {% endfor %}
+        {#                <div class="offset-2 col-8 " style="margin-top: 20px;margin-bottom: 20px">#}
+        {#                    <a href="{{ path("details",{'id':event.id}) }}"#}
+        {#                       class="btn btn-sm btn-outline-primary btn-block">Détails de la sortie</a>#}
+        {#                </div>#}
+
+        {#            {% elseif event.etat.id != 1 %}#}
+        {#                <h5 class="text-center text-primary">{{ event.nom }}</h5>#}
+        {#                <div>#}
+        {#                    {% if (event.etat.libelle == 'annulée') %}#}
+        {#                        <p>La sortie est annulée !</p>#}
+        {#                    {% endif %}#}
+        {#                </div>#}
+        {#                <p style="margin-top: 20px"><span class="text text-success"#}
+        {#                    >nombre de participant : {{ event.users|length }} / {{ event.nbInscriptionsMax }} places </span>|#}
+        {#                    Date et heure de l'événement#}
+        {#                    : {{ event.dateHeureDebut|date() }} || durée : {{ event.duree }}h#}
+        {#                </p>#}
+        {#                <small>Date limite d'inscription : {{ event.dateLimiteInscription|date() }}</small>#}
+        {#                <small>{{ event.infosSortie }}</small>#}
+
+        {#                <div class="offset-2 col-8 " style="margin-top: 20px;margin-bottom: 20px">#}
+        {#                    <a href="{{ path("details",{'id':event.id}) }}"#}
+        {#                       class="btn btn-sm btn-outline-primary btn-block">Détails de la sortie</a>#}
+        {#                </div>#}
+        {#            {% endif %}#}
+
+
+        {#        {% endfor %}#}
+
+        <div class="col-sm-9" style="margin-top: 30px;margin-bottom: 50px">
+            <table class="table">
+                <thead>
+                <tr>
+                    <td scope="col">Sortie</td>
+                    <td scope="col">Date de la sortie</td>
+                    <td scope="col">Clôture</td>
+                    <td scope="col">Incrits / Places</td>
+                    <td scope="col">Etat</td>
+                    <td scope="col">Inscrit</td>
+                    <td scope="col">Organisateur</td>
+                    <td scope="col">Actions</td>
+                </tr>
+                </thead>
+                <tbody>
+                {% for event in events %}
+                    <tr>
+                        <th><a href="{{ path("details",{'id':event.id}) }}">{{ event.nom }}</a></th>
+                        <td class="text">{{ event.dateHeureDebut|date() }}</td>
+                        <td class="text">{{ event.dateLimiteInscription|date() }}</td>
+                        <td class="text text-center">{{ event.users|length }} / {{ event.nbInscriptionsMax }}</td>
+                        <td class="text">{{ event.etat.libelle }}</td>
+                        <td class="text">
+                            {% if app.user in event.users %}
+                                <p>ok</p>
+                            {% endif %}
+                        </td>
+                        <td class="text text-center"><a
+                                    href="{{ path('profil',{'id':event.organisateur.id}) }}">{{ event.organisateur.nom }}</a>
+                        </td>
+                        <td class="text text-center">
+
+                            {% if (event.etat.libelle != 'créée') or ((event.etat.libelle != 'annulée' and ((event.dateHeureDebut|date_modify("+1 month")|date())<("now"|date())))) %}
+                                <a href="{{ path("details",{'id':event.id}) }}">Afficher</a>
+                            {% endif %}
+
+
+                            {% if  event.organisateur==app.user %}
+
+                                <a href="{{ path('sortie_modif',{'id':event.id}) }}">Modifier</a>
+
+                                {% if event.etat.libelle == 'créée' %}
+                                    <a href="{{ path("publier",{'id':event.id}) }}">Publier</a>
+                                {% endif %}
+
+                                {% if event.etat.libelle=='ouverte' %}
+                                    <a href="{{ path('sortie_annule',{'id':event.id}) }}">Annuler</a>
+                                {% endif %}
+
+                            {% endif %}
+
+                            {% if event.organisateur!=app.user %}
+                                {% if app.user not in event.users and event.users.count < event.nbInscriptionsMax%}
+                                    <a href="{{ path("addParticipant",{'id':event.id}) }}">S'inscrire</a>
+                                {% elseif app.user in event.users %}
+                                    <a href="{{ path("removeParticipant",{'id':event.id}) }}">Se désister</a>
+                                {% endif %}
+                            {% endif %}
+
+                           
+
+
+                        </td>
+                    </tr>
+                {% endfor %}
+
+
+                </tbody>
+            </table>
         </div>
+    </div>
 
     </div>
 

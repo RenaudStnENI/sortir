@@ -4,7 +4,7 @@
 
 {% block main %}
     <div>
-        <h3>Annulée une sortie !</h3>
+        <h3>Annuler une sortie !</h3>
     </div>
 
     <p>Nom de la sortie : {{ sortie.nom }}</p>
@@ -29,7 +29,7 @@
         </div>
 
             {{ form_end(annuleForm) }}
-            <a href="{{ path('list') }}" ><button type="button">Annuler</button></a>
+            <a href="{{ path('list') }}" ><button type="button">Retour</button></a>
         </div>
     </div>
 {% endblock %}

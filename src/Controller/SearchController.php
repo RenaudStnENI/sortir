@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Sortie;
+use App\Entity\User;
 use App\Form\SearchSortieType;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,27 +17,29 @@ class SearchController extends Controller
     /**
      * @Route("/sortir", name="list")
      */
-    public function list(EntityManagerInterface $em,Request $request,SortieRepository $sortieRepo)
+    public function list(EntityManagerInterface $em, Request $request, SortieRepository $sortieRepo)
     {
-        $title="Accueil";
+        $title = "Accueil";
 
-        $searchSortieForm=$this->createForm(SearchSortieType::class);
+
+        $searchSortieForm = $this->createForm(SearchSortieType::class);
         $searchSortieForm->handleRequest($request);
 
         if ($searchSortieForm->isSubmitted() && $searchSortieForm->isValid()) {
-            $criteres=$searchSortieForm->getData();
-            $events=$sortieRepo->searchSorties($criteres);
+            $criteres = $searchSortieForm->getData();
+            $events = $sortieRepo->searchSorties($criteres);
 
-        }
-        else{
+
+        } else {
             $sortieRepo = $em->getRepository(Sortie::class);
             $events = $sortieRepo->findBy([], ["dateLimiteInscription" => "DESC"], 30);
+
+
         }
 
 
-        return $this->render('search/sortie.html.twig', ["events"=>$events,"title"=>$title,'search_form'=>$searchSortieForm->createView()]);
+        return $this->render('search/sortie.html.twig', ["events" => $events, "title" => $title, 'search_form' => $searchSortieForm->createView()]);
     }
-
 
 
 }

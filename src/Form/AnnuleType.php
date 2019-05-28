@@ -15,7 +15,7 @@ class AnnuleType extends AbstractType
     {
         $builder
             ->add('infosSortie',TextareaType::class,['label'=>'Motif de l\'annulation : '])
-            ->add('enregistrer', SubmitType::class,['label'=>'Enregitrer'])
+            ->add('enregistrer', SubmitType::class,['label'=>'Annuler la sortie !'])
         ;
     }
 
