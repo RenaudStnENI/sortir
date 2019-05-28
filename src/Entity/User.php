@@ -83,11 +83,6 @@ class User implements UserInterface
 
     private $roles;
 
-    /**
-     * @Assert\Length(max="2000", maxMessage="Maximum 2000 caractères")
-     * @ORM\Column(type="string", nullable=false, length=2000, nullable=true)
-     */
-    private $photo;
 
 
     /**
@@ -98,24 +93,6 @@ class User implements UserInterface
     public function __construct()
     {
         $this->sorties = new ArrayCollection();
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPhoto()
-    {
-        return $this->photo;
-    }
-
-    /**
-     * @param mixed $photo
-     * @return User
-     */
-    public function setPhoto($photo)
-    {
-        $this->photo = $photo;
-        return $this;
     }
 
 

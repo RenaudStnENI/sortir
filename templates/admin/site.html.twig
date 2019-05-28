@@ -1,6 +1,6 @@
 {% extends ('layout.html.twig') %}
 
-{% block title %}{{ parent() }} mon Profil{% endblock %}
+{% block title %}{{ parent() }} | Sites{% endblock %}
 
 {% block main %}
 
@@ -20,29 +20,54 @@
 
                     <table class="table">
 
-
                         {% for site in sites %}
 
                             <tr>
                                 <td>{{ site.nom }}</td>
-                                <td><a href="">modifier</a></td>
-                                <td> |</td>
-                                <td><a href="">supprimer</a></td>
                             </tr>
 
                         {% endfor %}
+
+
                     </table>
-                    <div>
-                        <a href="{{ path('list') }}"> <button class="btn btn-primary" >retour</button></a>
+
+                </div>
+
+
+                <div class="offset-3 col-6 " style="margin-top: 50px;">
+
+
+                    <div class="container">
+                        {{ form_start(siteForm) }}
+                        <div>Souhaitez-vous ajouter un site ? entrer son nom :</div>
+                        <div>
+                            {{ form_widget(siteForm.nom ) }}
+                            {{ form_errors(siteForm.nom) }}
+                        </div>
+                    </div>
+                    <div class="container">
+                        <button type="submit"
+                                class="btn btn-outline-primary btn-block">ajouter
+                        </button>
+                    </div>
+                    {{ form_end(siteForm) }}
+
+
+                </div>
+
+                <div class="offset-3 col-6 " style="margin-bottom: 100px;">
+                    <div class="container">
+                        <a href="{{ path('list') }}"
+                           class="btn btn-outline-danger btn-block"
+                           style="margin-top: 10px">retour</a>
                     </div>
                 </div>
+
+
             </div>
 
         </div>
-        <div class="col-sm-3">
 
-
-        </div>
     </div>
 
 {% endblock %}
