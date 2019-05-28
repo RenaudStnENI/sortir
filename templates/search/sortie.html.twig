@@ -18,7 +18,7 @@
         </div>
 
 
-{#        <div class="col-sm-1"></div>#}
+        {#        <div class="col-sm-1"></div>#}
 
 
         {#    <div class="col-sm-7" style="margin-top: 30px;margin-bottom: 50px">#}
@@ -96,33 +96,39 @@
                                 <p>ok</p>
                             {% endif %}
                         </td>
-                        <td class="text text-center"><a href="{{ path('profil',{'id':event.organisateur.id}) }}">{{ event.organisateur.nom }}</a></td>
+                        <td class="text text-center"><a
+                                    href="{{ path('profil',{'id':event.organisateur.id}) }}">{{ event.organisateur.nom }}</a>
+                        </td>
                         <td class="text text-center">
-                            {% if (event.etat.libelle != 'créée') or ((event.etat.libelle != 'annulée' and ((event.dateHeureDebut|date_modify("+1 month")|date())<("now"|date())))) %}
 
+                            {% if (event.etat.libelle != 'créée') or ((event.etat.libelle != 'annulée' and ((event.dateHeureDebut|date_modify("+1 month")|date())<("now"|date())))) %}
                                 <a href="{{ path("details",{'id':event.id}) }}">Afficher</a>
                             {% endif %}
 
-                            {% if event.etat.libelle == 'créée' and event.organisateur==app.user %}
+
+                            {% if  event.organisateur==app.user %}
 
                                 <a href="{{ path('sortie_modif',{'id':event.id}) }}">Modifier</a>
-                                <a href="{{ path("publier",{'id':event.id}) }}">Publier</a>
+
+                                {% if event.etat.libelle == 'créée' %}
+                                    <a href="{{ path("publier",{'id':event.id}) }}">Publier</a>
+                                {% endif %}
+
+                                {% if event.etat.libelle=='ouverte' %}
+                                    <a href="{{ path('sortie_annule',{'id':event.id}) }}">Annuler</a>
+                                {% endif %}
 
                             {% endif %}
 
                             {% if event.organisateur!=app.user %}
-                                {% if app.user not in event.users %}
+                                {% if app.user not in event.users and event.users.count < event.nbInscriptionsMax%}
                                     <a href="{{ path("addParticipant",{'id':event.id}) }}">S'inscrire</a>
-                                {% elseif app.user in event.users%}
+                                {% elseif app.user in event.users %}
                                     <a href="{{ path("removeParticipant",{'id':event.id}) }}">Se désister</a>
                                 {% endif %}
                             {% endif %}
 
-                            {% if event.etat.libelle=='ouverte' and event.organisateur==app.user %}
-                                <a href="{{ path('sortie_annule',{'id':event.id}) }}">Annuler</a>
-                            {% endif %}
-
-
+                           
 
 
                         </td>
