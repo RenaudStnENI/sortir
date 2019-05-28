@@ -85,7 +85,7 @@ class Site
      */
     public function getUsers()
     {
-        return $this->users;
+        return $this->users->count();
     }
 
     /**
@@ -101,9 +101,9 @@ class Site
     /**
      * @return Collection|Sortie[]
      */
-    public function getSorties(): Collection
+    public function getSorties()
     {
-        return $this->sorties;
+        return $this->sorties->count();
     }
 
     public function addSorty(Sortie $sorty): self
