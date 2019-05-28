@@ -1,6 +1,6 @@
 {% extends ('layout.html.twig') %}
 
-{% block title %}{{ parent() }} mon Profil{% endblock %}
+{% block title %}{{ parent() }} | Mon profil{% endblock %}
 
 {% block main %}
 
@@ -20,7 +20,7 @@
                     {{ form_start(userForm) }}
 
                     <div class="group">
-                        <div class="container"><img src="/sortir/public/photoUser/{{ app.user.username }}" height="200px"></div>
+                        <div class="container"><img src="/sortir/public/photoUser/{{ app.user.username }}" width="auto" height="auto"></div>
                         <br>
                         <p>Photo de profil :</p>
                         {{ form_widget(userForm.fichier) }}
