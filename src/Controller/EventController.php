@@ -178,7 +178,7 @@ class EventController extends Controller
         $annuleForm = $this->createForm(AnnuleType::class, $sortie);
         $annuleForm->handleRequest($request);
 
-        if ($sortie->getDateLimiteInscription() < $sortie->getDateHeureDebut()) {
+        if ($sortie->getEtat()->getLibelle()!='cloturee' or $sortie->getEtat()->getLibelle()!='ouverte') {
             if ($annuleForm->isSubmitted() && $annuleForm->isValid()) {
                 if ($annuleForm->get('enregistrer')->isClicked()) {
                     $etat = $this->getDoctrine()->getManager()->getReference(Etat::class, 6);
@@ -239,6 +239,9 @@ class EventController extends Controller
         return $this->redirectToRoute('list');
 
     }
+
+
+
 
 }
 

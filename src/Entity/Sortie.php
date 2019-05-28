@@ -26,7 +26,7 @@ class Sortie
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\GreaterThan("today", message="La date doit etre superieur à celle d'aujourd'hui")
+     * @Assert\GreaterThan("today", message="La date doit être supérieure à celle d'aujourd'hui")
      */
     private $dateHeureDebut;
 
@@ -76,9 +76,12 @@ class Sortie
     private $etat;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $organisateur;
+
+
 
 
     public function __construct()
@@ -228,23 +231,18 @@ class Sortie
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getOrganisateur()
+    public function getOrganisateur(): ?User
     {
         return $this->organisateur;
     }
 
-    /**
-     * @param mixed $organisateur
-     * @return Sortie
-     */
-    public function setOrganisateur($organisateur)
+    public function setOrganisateur(?User $organisateur): self
     {
         $this->organisateur = $organisateur;
+
         return $this;
     }
+
 
 
 }
