@@ -27,7 +27,8 @@ class EventController extends Controller
 
         $sortie = new Sortie();
         $sortie->setDateHeureDebut(new \DateTime());
-        $sortie->setOrganisateur($this->getUser()->getId());
+        //$sortie->setOrganisateur($this->getUser()->getId());
+        $sortie->setOrganisateur($this->getUser());
         $sortie->setSite($this->getUser()->getSite());
         $sortieForm = $this->createForm(SortieType::class,$sortie);
         $sortieForm->handleRequest($request);
@@ -35,7 +36,7 @@ class EventController extends Controller
         if($sortie->getDateLimiteInscription() < $sortie->getDateHeureDebut()) {
             if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
                 if ($sortieForm->get('publier')->isclicked()) {
-                    $etat = $this->getDoctrine()->getManager()->getReference(Etat::class, 2);
+                    $etat = $this->getDoctrine()->getManager()->getReference(Etat::class, 3);
                     $sortie->setEtat($etat);
                     $sortie->addUser($this->getUser());
                     $em->persist($sortie);
@@ -70,10 +71,12 @@ class EventController extends Controller
         $sortieForm = $this->createForm(SortieType::class,$sortie);
         $sortieForm->handleRequest($request);
 
+        $title="add";
+
         if($sortie->getDateLimiteInscription() < $sortie->getDateHeureDebut()) {
             if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
                 if ($sortieForm->get('publier')->isclicked()) {
-                    $etat = $this->getDoctrine()->getManager()->getReference(Etat::class, 2);
+                    $etat = $this->getDoctrine()->getManager()->getReference(Etat::class, 3);
                     $sortie->setEtat($etat);
                     $em->persist($sortie);
                     $em->flush();
@@ -86,7 +89,8 @@ class EventController extends Controller
                     $em->flush();
                     $this->addFlash('success', 'La sortie est bien enregistré !');
                 } elseif ($sortieForm->get('enregistrer')->isClicked() && $sortie->getEtat()->getId() > 1){;
-
+                    $sortieForm->addError(new FormError('Votre sortie est deja publier, vous ne pouvez pas l\'enregistrer !'));
+                    return $this->render('event/modifSortie.html.twig', ["sortieForm"=>$sortieForm->createView(),"title"=>$title]);
                 }
                     return $this->redirectToRoute("list");
 
@@ -94,7 +98,7 @@ class EventController extends Controller
         }else{
             $sortieForm->get('dateLimiteInscription')->addError(new FormError('La date de limite d\'inscription doit etre inferieur à la date de la sortie !'));
         }
-        $title="add";
+
         return $this->render('event/modifSortie.html.twig', ["sortieForm"=>$sortieForm->createView(),"title"=>$title]);
     }
 
@@ -126,7 +130,8 @@ class EventController extends Controller
         $lieu = [
           'rue' => $detail->getRue(),
            'latitude' => $detail->getLatitude(),
-            'longitude' => $detail->getLongitude()
+            'longitude' => $detail->getLongitude(),
+            'cp'=> $detail->getVille()->getCp()
         ];
 
         $response = new Response(json_encode($lieu));
