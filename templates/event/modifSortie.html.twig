@@ -8,6 +8,7 @@
     </div>
     <div>
         {{ form_start(sortieForm) }}
+        {{ form_errors(sortieForm) }}
         <div>
             {{ form_label(sortieForm.nom) }}
             {{ form_widget(sortieForm.nom) }}
