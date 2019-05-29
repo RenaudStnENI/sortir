@@ -40,7 +40,7 @@
                     {% for participant in participants %}
                         <div class="row border">
                             <div class="col-1">
-                                <a href="{{ path('profil', {'id':participant.id}) }}"><img src="{{ participant.photo }}"
+                                <a href="{{ path('profil', {'id':participant.id}) }}"><img src="/sortir/public/photoUser/{{ participant.username }}"
                                                                                            width="auto"
                                                                                            height="20px"></a>
                             </div>
@@ -60,11 +60,6 @@
 
                 <div class="offset-3 col-6 ">
 
-
-                    {% if app.user.id  == sortie.organisateur and sortie.etat.id == 1 %}
-                        <a href="{{ path("publier",{'id':sortie.id}) }}"
-                           class="btn btn-outline-success btn-block">Publier</a>
-                    {% endif %}
                     {% if (sortie.etat.id == 3) %}
 
                         {% if app.user not in participants  and (sortie.users.count < sortie.nbInscriptionsMax) %}
@@ -80,22 +75,25 @@
 
                     {% endif %}
 
+                    {% if app.user == sortie.organisateur %}
 
-                </div>
-
-
-                {% if ((sortie.etat.id <= 3)and (user_session == sortie.organisateur)) %}
-                    {% if app.user.id == sortie.organisateur %}
-                        <div class="offset-3 col-6 ">
+                        {% if sortie.etat.id <= 3 %}
                             <a href="{{ path('sortie_modif',{'id':sortie.id}) }}"
                                class="btn btn-outline-danger btn-block">Modifier</a>
+
+
                             <a href="{{ path('sortie_annule',{'id':sortie.id}) }}"
                                class="btn btn-outline-primary btn-block"
                                style="margin-top: 10px">Annuler la sortie</a>
-                        </div>
-                    {% endif %}
-                {% endif %}
+                        {% endif %}
 
+                        {% if sortie.etat.id == 1 %}
+                            <a href="{{ path("publier",{'id':sortie.id}) }}"
+                               class="btn btn-outline-success btn-block">Publier</a>
+                        {% endif %}
+
+                    {% endif %}
+                </div>
 
             </div>
         </div>
@@ -127,7 +125,6 @@
             initMap();
         };
     </script>
-
 
 
 {% endblock %}

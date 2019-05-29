@@ -18,7 +18,7 @@
         </div>
 
 
-{#        <div class="col-sm-1"></div>#}
+        {#        <div class="col-sm-1"></div>#}
 
 
         {#    <div class="col-sm-7" style="margin-top: 30px;margin-bottom: 50px">#}
@@ -85,48 +85,12 @@
                 </thead>
                 <tbody>
                 {% for event in events %}
-                    <tr>
-                        <th><a href="{{ path("details",{'id':event.id}) }}">{{ event.nom }}</a></th>
-                        <td class="text">{{ event.dateHeureDebut|date() }}</td>
-                        <td class="text">{{ event.dateLimiteInscription|date() }}</td>
-                        <td class="text text-center">{{ event.users|length }} / {{ event.nbInscriptionsMax }}</td>
-                        <td class="text">{{ event.etat.libelle }}</td>
-                        <td class="text">
-                            {% if app.user in event.users %}
-                                <p>ok</p>
-                            {% endif %}
-                        </td>
-                        <td class="text text-center"><a href="{{ path('profil',{'id':event.organisateur.id}) }}">{{ event.organisateur.nom }}</a></td>
-                        <td class="text text-center">
-                            {% if (event.etat.libelle != 'créée') or ((event.etat.libelle != 'annulée' and ((event.dateHeureDebut|date_modify("+1 month")|date())<("now"|date())))) %}
+                    {% if event.etat.libelle =="créée" and app.user == event.organisateur %}
+                        {% include ('includes/ligneTab.html.twig') %}
+                    {% elseif event.etat.libelle !="créée"%}
+                        {% include ('includes/ligneTab.html.twig') %}
+                    {% endif %}
 
-                                <a href="{{ path("details",{'id':event.id}) }}">Afficher</a>
-                            {% endif %}
-
-                            {% if event.etat.libelle == 'créée' and event.organisateur==app.user %}
-
-                                <a href="{{ path('sortie_modif',{'id':event.id}) }}">Modifier</a>
-                                <a href="{{ path("publier",{'id':event.id}) }}">Publier</a>
-
-                            {% endif %}
-
-                            {% if event.organisateur!=app.user %}
-                                {% if app.user not in event.users %}
-                                    <a href="{{ path("addParticipant",{'id':event.id}) }}">S'inscrire</a>
-                                {% elseif app.user in event.users%}
-                                    <a href="{{ path("removeParticipant",{'id':event.id}) }}">Se désister</a>
-                                {% endif %}
-                            {% endif %}
-
-                            {% if event.etat.libelle=='ouverte' and event.organisateur==app.user %}
-                                <a href="{{ path('sortie_annule',{'id':event.id}) }}">Annuler</a>
-                            {% endif %}
-
-
-
-
-                        </td>
-                    </tr>
                 {% endfor %}
 
 
