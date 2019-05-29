@@ -4,116 +4,142 @@
 
 {% block main %}
 
-<div class="container">
+    <div class="container">
     <div class="row">
-        <div class="col-sm-2">
 
+
+        <div class="col-md-2 col-lg-2 col-sm-0">
         </div>
-        <div class="col-sm-8">
+
+
+        <div class="col-sm-12 col-md-8 col-lg-8 card" style="padding: 60px; margin-bottom: 100px">
+
+
 
             <div class="container" style="margin-bottom: 100px">
 
-                <h1>Bonjour {{ app.user.prenom }}, souhaitez-vous modifier votre profil ?</h1>
+                <div>
+                    <h3 class="text text-info font-weight-bold" >Bonjour {{ app.user.prenom }}, souhaitez-vous modifier votre profil ?</h3>
+                </div>
+
 
                 <div>
-                    <br>
                     {{ form_start(userForm) }}
 
-                    <div class="group">
-                        <div class="container"><img src="/sortir/public/photoUser/{{ app.user.username }}" width="auto" height="auto"></div>
-                        <br>
-                        <p>Photo de profil :</p>
-                        {{ form_widget(userForm.fichier) }}
-                        {{ form_errors(userForm.fichier) }}
-                        <div></div>
-                        <br>
+
+                    <div class="group" style="margin: 40px; text-align: center"  classe="col-sm-12">
+                        <img src="/sortir/public/photoUser/{{ app.user.username }}" width="75px" height="auto">
+                    </div>
+
+
+                    <div class="group" style="margin-bottom: 25px">
+                        <div>
+                            <p>
+                            <h6 class="text font-weight-bold"> Photo de profil </h6>
+                            </p>
+                        </div>
+                        <div>
+                            {{ form_widget(userForm.fichier) }}
+                            {{ form_errors(userForm.fichier) }}
+                        </div>
                     </div>
 
                     <div class="group">
-                        <p>Pseudo :</p>
-                        {{ form_widget(userForm.username) }}
-                        {{ form_errors(userForm.username) }}
-                        <div></div>
-                        <br>
+                        <p>
+                        <h6 class="text font-weight-bold"> Identifiant </h6>
+                        </p>
+                        <div>
+                            {{ form_widget(userForm.username) }}
+                            {{ form_errors(userForm.username) }}
+                        </div>
                     </div>
 
                     <div class="group">
-                        <p>Nom :</p>
-                        {{ form_widget(userForm.nom) }}
-                        {{ form_errors(userForm.nom) }}
-                        <div></div>
-                        <br>
+                        <p>
+                        <h6 class="text font-weight-bold"> Nom </h6>
+                        </p>
+                        <div>
+                            {{ form_widget(userForm.nom) }}
+                            {{ form_errors(userForm.nom) }}
+                        </div>
                     </div>
 
                     <div class="group">
-                        <p>Prénom :</p>
-                        {{ form_widget(userForm.prenom) }}
-                        {{ form_errors(userForm.prenom) }}
-                        <div></div>
-                        <br>
+                        <p>
+                        <h6 class="text font-weight-bold"> Prénom </h6>
+                        </p>
+                        <div>
+                            {{ form_widget(userForm.prenom) }}
+                            {{ form_errors(userForm.prenom) }}
+                        </div>
                     </div>
 
                     <div class="group">
-                        <p>E-mail :</p>
-                        {{ form_widget(userForm.mail) }}
-                        {{ form_errors(userForm.mail) }}
-                        <div></div>
-                        <br>
+                        <p>
+                        <h6 class="text font-weight-bold"> E-mail </h6>
+                        </p>
+                        <div>
+                            {{ form_widget(userForm.mail) }}
+                            {{ form_errors(userForm.mail) }}
+                        </div>
                     </div>
 
                     <div class="group">
-                        <p>Téléphone :</p>
-                        {{ form_widget(userForm.telephone) }}
-                        {{ form_errors(userForm.telephone) }}
-                        <div></div>
-                        <br>
+                        <p>
+                        <h6 class="text font-weight-bold"> Téléphone </h6>
+                        </p>
+                        <div>
+                            {{ form_widget(userForm.telephone) }}
+                            {{ form_errors(userForm.telephone) }}
+                        </div>
                     </div>
 
-                    <div class="group">
-                        <p>Site :</p>
-                        {{ form_widget(userForm.site) }}
-                        {{ form_errors(userForm.site) }}
-                        <div></div>
-                        <br>
+                    <div class="group" style="margin-bottom: 20px">
+                        <p>
+                        <h6 class="text font-weight-bold"> Site </h6>
+                        </p>
+                        <div>
+                            {{ form_widget(userForm.site) }}
+                            {{ form_errors(userForm.site) }}
+                        </div>
                     </div>
 
-                    <div class="offset-3 col-6 ">
+
+                    <div class="offset-3 col-md-6 col-lg-6 col-sm-8">
                         <button type="submit"
                                 class="btn btn-outline-primary btn-block">valider
                         </button>
                     </div>
-
+                    
                     {{ form_end(userForm) }}
-
-
-                    <div>
-                    <p><h4>Souhaitez-vous modifier votre mot de passe ?</h4></p>
-                    </div>
-
-
-                    <div class="offset-3 col-6 ">
-                        <a href="{{ path('changerMotDePasse') }}"
-                           class="btn btn-outline-primary btn-block"
-                           style="margin-top: 10px">valider</a>
-                        <a href="{{ path('list')}}"
-                           class="btn btn-outline-danger btn-block"
-                           style="margin-top: 10px">retour</a>
-                    </div>
-
-
-
-
                 </div>
 
 
+                <div style="margin-top: 50px">
 
+                    <div>
+                        <p>
+                            <h3 class="text font-weight-bold" >Souhaitez-vous modifier votre mot de passe ?</h3>
+                        </p>
+                    </div>
+
+                    <div class="offset-3 col-md-6 col-lg-6 col-sm-8">
+                        <a href="{{ path('changerMotDePasse') }}"
+                           class="btn btn-outline-primary btn-block"
+                           style="margin-top: 10px">valider</a>
+                        <a href="{{ path('list') }}"
+                           class="btn btn-outline-danger btn-block"
+                           style="margin-top: 10px">retour</a>
+                    </div>
+                </div>
             </div>
 
-        </div>
-        <div class="col-sm-2">
 
         </div>
+
+        <div class="col-sm-2" >
+        </div>
+
     </div>
-</div>
 
 {% endblock %}

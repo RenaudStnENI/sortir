@@ -5,108 +5,130 @@
 {% block main %}
 
     <div class="container">
-        <div class="row">
-            <div class="col-sm-2">
-
-            </div>
-            <div class="col-sm-8">
-
-                <div class="container" style="margin-bottom: 100px">
-
-                    <h1>Bonjour {{ app.user.prenom }}, souhaitez-vous ajouter un utilisateur ?</h1>
-
-                    <div>
-                        <br>
-                        {{ form_start(userForm) }}
+    <div class="row">
 
 
-                        <div class="group">
-                            <br>
-                            <p>Photo de profil :</p>
+        <div class="col-md-2 col-lg-2 col-sm-0">
+        </div>
+
+
+        <div class="col-sm-12 col-md-8 col-lg-8 card" style="padding: 60px; margin-bottom: 100px">
+
+
+            <div class="container" style="margin-bottom: 100px">
+
+
+                <div>
+                    <h3 class="text text-info font-weight-bold">Bonjour {{ app.user.prenom }}, souhaitez-vous ajouter un
+                        utilisateur ?</h3><br>
+                </div>
+
+                <div>
+                    {{ form_start(userForm) }}
+
+
+                    <div class="group" style="margin-bottom: 50px">
+                        <div>
+                            <p>
+                            <h6 class="text font-weight-bold"> Photo de profil </h6>
+                            </p>
+                        </div>
+                        <div>
                             {{ form_widget(userForm.fichier) }}
                             {{ form_errors(userForm.fichier) }}
-                            <div></div>
-                            <br>
                         </div>
+                    </div>
 
-                        <div class="group">
-                            <p>Pseudo :</p>
+                    <div class="group">
+                        <p>
+                        <h6 class="text font-weight-bold"> Identifiant </h6>
+                        </p>
+                        <div>
                             {{ form_widget(userForm.username) }}
                             {{ form_errors(userForm.username) }}
-                            <div></div>
-                            <br>
                         </div>
+                    </div>
 
-                        <div class="group">
-                            <p>Nom :</p>
-                            {{ form_widget(userForm.nom) }}
-                            {{ form_errors(userForm.nom) }}
-                            <div></div>
-                            <br>
+                    <div class="group">
+                        <p>
+                        <h6 class="text font-weight-bold"> Nom </h6>
+                        </p>
+                        <div>
+                        {{ form_widget(userForm.nom) }}
+                        {{ form_errors(userForm.nom) }}
                         </div>
+                    </div>
 
-                        <div class="group">
-                            <p>Prénom :</p>
-                            {{ form_widget(userForm.prenom) }}
-                            {{ form_errors(userForm.prenom) }}
-                            <div></div>
-                            <br>
+                    <div class="group">
+                        <p>
+                        <h6 class="text font-weight-bold"> Prénom </h6>
+                        </p>
+                        <div>
+                        {{ form_widget(userForm.prenom) }}
+                        {{ form_errors(userForm.prenom) }}
                         </div>
+                    </div>
 
-                        <div class="group">
-                            <p>E-mail :</p>
-                            {{ form_widget(userForm.mail) }}
-                            {{ form_errors(userForm.mail) }}
-                            <div></div>
-                            <br>
+                    <div class="group">
+                        <p>
+                        <h6 class="text font-weight-bold"> E-mail </h6>
+                        </p>
+                        <div>
+                        {{ form_widget(userForm.mail) }}
+                        {{ form_errors(userForm.mail) }}
                         </div>
+                    </div>
 
-                        <div class="group">
-                            <p>Téléphone :</p>
-                            {{ form_widget(userForm.telephone) }}
-                            {{ form_errors(userForm.telephone) }}
-                            <div></div>
-                            <br>
+                    <div class="group">
+                        <p>
+                        <h6 class="text font-weight-bold"> Téléphone </h6>
+                        </p>
+                        <div>
+                        {{ form_widget(userForm.telephone) }}
+                        {{ form_errors(userForm.telephone) }}
                         </div>
+                    </div>
 
-                        <div class="group">
-                            <p>Site :</p>
-                            {{ form_widget(userForm.site) }}
-                            {{ form_errors(userForm.site) }}
-                            <div></div>
-                            <br>
+                    <div class="group">
+                        <p>
+                        <h6 class="text font-weight-bold"> Site </h6>
+                        </p>
+                        <div>
+                        {{ form_widget(userForm.site) }}
+                        {{ form_errors(userForm.site) }}
                         </div>
+                        <br>
+                    </div>
 
-                        <div class="group">
-                            {{ form_widget(userForm.password) }}
-                            {{ form_errors(userForm.password) }}
-                        </div>
-
-
-
-                        <div class="offset-3 col-6 ">
-                            <button type="submit"
-                                    class="btn btn-outline-primary btn-block">valider
-                            </button>
-                            <a href="{{ path('list')}}"
-                               class="btn btn-outline-danger btn-block"
-                               style="margin-top: 10px">retour</a>
-                        </div>
-
-                        {{ form_end(userForm) }}
-
-
+                    <div class="group">
+                        <p>
+                        <h6 class="text font-weight-bold"> Informations  de connexion</h6>
+                        </p>
+                        <br>
+                        {{ form_widget(userForm.password) }}
+                        {{ form_errors(userForm.password) }}
                     </div>
 
 
+                    <div class="offset-3 col-md-6 col-lg-6 col-sm-8" style="margin-top: 30px">
+                        <button type="submit"
+                                class="btn btn-outline-primary btn-block">valider
+                        </button>
+                        <a href="{{ path('list') }}"
+                           class="btn btn-outline-danger btn-block"
+                           style="margin-top: 10px">retour</a>
+                    </div>
+
+                    {{ form_end(userForm) }}
 
 
                 </div>
-
             </div>
-            <div class="col-sm-2">
 
-            </div>
+
+        </div>
+        <div class="col-sm-2">
+
         </div>
     </div>
 
