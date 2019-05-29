@@ -27,8 +27,8 @@ class EventController extends Controller
 
         $sortie = new Sortie();
         $sortie->setDateHeureDebut(new \DateTime());
-        //$sortie->setOrganisateur($this->getUser()->getId());
         $sortie->setOrganisateur($this->getUser());
+
         $sortie->setSite($this->getUser()->getSite());
         $sortieForm = $this->createForm(SortieType::class,$sortie);
         $sortieForm->handleRequest($request);
