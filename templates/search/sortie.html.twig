@@ -85,14 +85,17 @@
                 </thead>
                 <tbody>
                 {% for event in events %}
-                    {% if event.etat.libelle =="créée" and app.user == event.organisateur %}
-                        {% include ('includes/ligneTab.html.twig') %}
-                    {% elseif event.etat.libelle !="créée"%}
-                        {% include ('includes/ligneTab.html.twig') %}
+
+                    {% if event.etat.libelle!='archivée'  %}
+
+                        {% if event.etat.libelle =="créée" and app.user == event.organisateur %}
+                            {% include ('includes/ligneTab.html.twig') %}
+                        {% elseif event.etat.libelle !="créée" %}
+                            {% include ('includes/ligneTab.html.twig') %}
+                        {% endif %}
                     {% endif %}
 
                 {% endfor %}
-
 
                 </tbody>
             </table>
