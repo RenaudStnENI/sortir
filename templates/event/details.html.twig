@@ -35,15 +35,19 @@
             {% endif %}
             <p style="margin-top: 20px;margin-bottom: 30px">{{ sortie.infosSortie }}</p>
 
-            <div class="container">
-                <p>Liste des participants : </p>
-                {% for participant in participants %}
-                    <div class="row border">
-                        <div class="col-1">
-                            <a href="{{ path('profil', {'id':participant.id}) }}"><img
-                                        src="/sortir/public/photoUser/{{ participant.username }}"
-                                        width="auto"
-                                        height="20px"></a>
+                <div class="container">
+                    <p>Liste des participants : </p>
+                    {% for participant in participants %}
+                        <div class="row border">
+                            <div class="col-1">
+                                <a href="{{ path('profil', {'id':participant.id}) }}"><img
+                                            src="/sortir/public/photoUser/{{ participant.username }}"
+                                            width="auto"
+                                            height="20px"></a>
+                            </div>
+                            <a href="{{ path('profil', {'id':participant.id}) }}">
+                                <div class="col-12">{{ participant.username }}</div>
+                            </a>
                         </div>
                         <a href="{{ path('profil', {'id':participant.id}) }}">
                             <div class="col-12">{{ participant.username }}</div>
