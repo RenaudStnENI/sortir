@@ -22,6 +22,7 @@
                     <h3 class="text text-info font-weight-bold">Bonjour {{ app.user.prenom }}, souhaitez-vous ajouter un
                         utilisateur ?</h3><br>
                 </div>
+                <a href="{{ path('importCSV') }}">Importer un fichier</a>
 
                 <div>
                     {{ form_start(userForm) }}
