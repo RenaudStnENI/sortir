@@ -3,19 +3,9 @@
 {% block title %}{{ parent() }}   |   {{ title }}{% endblock %}
 
 {% block main %}
+    <div style="margin-top: 120px"></div>
 
     <div class="row">
-
-        <h6 class="col-12 text-center text-success" style="margin-bottom: 30px">Actuellement {{ events|length }}
-            sorties</h6>
-
-
-        <div class="col-sm-3 " style="margin-bottom: 50px">
-
-            {{ form_start(search_form) }}
-            {{ form_widget(search_form) }}
-            {{ form_end(search_form) }}
-        </div>
 
 
         {#        <div class="col-sm-1"></div>#}
@@ -69,39 +59,133 @@
 
         {#        {% endfor %}#}
 
-        <div class="col-sm-9" style="margin-top: 30px;margin-bottom: 50px">
-            <table class="table">
-                <thead>
-                <tr>
-                    <td scope="col">Sortie</td>
-                    <td scope="col">Date de la sortie</td>
-                    <td scope="col">Clôture</td>
-                    <td scope="col">Incrits / Places</td>
-                    <td scope="col">Etat</td>
-                    <td scope="col">Inscrit</td>
-                    <td scope="col">Organisateur</td>
-                    <td scope="col">Actions</td>
-                </tr>
-                </thead>
-                <tbody>
-                {% for event in events %}
+        <div class="col-lg-4 " style="margin-bottom: 50px;margin-top: 30px">
+            <div class="card" style="padding-top: 20px ;padding-right: 20px;padding-left: 20px">
+                <div>
+                    <br>
+                    {{ form_start(search_form) }}
 
-                    {% if event.etat.libelle!='archivée'  %}
+                    <div class="offset-1 col-10" style="margin-bottom: 15px">
+                        {{ form_widget(search_form.rechercher) }}
 
-                        {% if event.etat.libelle =="créée" and app.user == event.organisateur %}
-                            {% include ('includes/ligneTab.html.twig') %}
-                        {% elseif event.etat.libelle !="créée" %}
-                            {% include ('includes/ligneTab.html.twig') %}
-                        {% endif %}
-                    {% endif %}
+                    </div>
 
-                {% endfor %}
+                    <div class="group">
+                        {{ form_label(search_form.nom) }}
+                        {{ form_widget(search_form.nom) }}
+                        {{ form_errors(search_form.nom) }}
+                        <div></div>
+                        <br>
+                    </div>
 
-                </tbody>
-            </table>
+                    <div class="group">
+                        <p>Site </p>
+                        {{ form_widget(search_form.site) }}
+                        {{ form_errors(search_form.site) }}
+                        <div></div>
+                        <br>
+                    </div>
+
+                    <div class="group">
+                        <p>Entre le </p>
+                        {{ form_widget(search_form.dateMin) }}
+                        {{ form_errors(search_form.dateMin) }}
+                        <div></div>
+                        <br>
+                    </div>
+
+                    <div class="group">
+                        <p>Et</p>
+                        {{ form_widget(search_form.dateMax) }}
+                        {{ form_errors(search_form.dateMax) }}
+                        <div></div>
+                        <br>
+                    </div>
+
+                    <div class="group">
+                        {{ form_label(search_form.isOrganisateur) }}
+                        {{ form_widget(search_form.isOrganisateur) }}
+                        {{ form_errors(search_form.isOrganisateur) }}
+                        <div></div>
+                        <br>
+                    </div>
+
+                    <div class="group">
+                        {{ form_label(search_form.isInscrit) }}
+                        {{ form_widget(search_form.isInscrit) }}
+                        {{ form_errors(search_form.isInscrit) }}
+                        <div></div>
+                        <br>
+                    </div>
+
+                    <div class="group">
+                        {{ form_label(search_form.isNotInscrit) }}
+                        {{ form_widget(search_form.isNotInscrit) }}
+                        {{ form_errors(search_form.isNotInscrit) }}
+                        <div></div>
+                        <br>
+                    </div>
+
+                    <div class="group">
+                        {{ form_label(search_form.sortiesPassees) }}
+                        {{ form_widget(search_form.sortiesPassees) }}
+                        {{ form_errors(search_form.sortiesPassees) }}
+                        <div></div>
+                        <br>
+                    </div>
+
+
+                    {{ form_end(search_form) }}
+
+
+                </div>
+
+
+                {#                {{ form_start(search_form) }}#}
+                {#                {{ form_widget(search_form) }}#}
+                {#                {{ form_end(search_form) }}#}
+            </div>
         </div>
-    </div>
 
+        <div class="col-lg-8" style="margin-top: 30px;margin-bottom: 50px">
+            <div class="card" style="padding-top: 20px">
+                <h6 class="text-center text-success" style="margin-bottom: 30px">Actuellement {{ events|length }}
+                    sorties</h6>
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <td scope="col">Sortie</td>
+                        <td scope="col">Date de la sortie</td>
+                        <td scope="col">Clôture</td>
+                        <td scope="col">Incrits / Places</td>
+                        <td scope="col">Etat</td>
+                        <td scope="col">Inscrit</td>
+                        <td scope="col">Organisateur</td>
+                        <td scope="col">Actions</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for event in events %}
+
+                        {% if event.etat.libelle!='archivée' %}
+
+                            {% if event.etat.libelle =="créée" and app.user == event.organisateur %}
+                                {% include ('includes/ligneTab.html.twig') %}
+                            {% elseif event.etat.libelle !="créée" %}
+                                {% include ('includes/ligneTab.html.twig') %}
+                            {% endif %}
+                        {% endif %}
+
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+    </div>
     </div>
 
 
