@@ -26,6 +26,8 @@
 
                     <div>
                         {{ form_start(sortieForm) }}
+                        {{ form_errors(sortieForm) }}
+
 
 
                         <div class="group" style="margin-top: 10%">
@@ -129,7 +131,7 @@
                             </div>
                             <div>
                                 <label>Site : </label>
-                                {#            {{ app.user.site.nom}}#}
+                                            {{ app.user.site.nom}}
                             </div>
                         </div>
 
@@ -153,6 +155,8 @@
                                class="btn btn-outline-danger btn-block"
                                style="margin-top: 10px">retour</a>
                         </div>
+
+                        {{ form_end(sortieForm) }}
 
                     </div>
                 </div>
