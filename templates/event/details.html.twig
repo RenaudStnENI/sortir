@@ -4,139 +4,196 @@
 
 {% block main %}
 
-<h3 class="text-center" style="margin-bottom: 30px">Détails de la sortie</h3>
+<div class="container">
+    <div class="row">
 
-<div class="offset-sm-3 col-sm-6 " style="margin-top: 30px;margin-bottom: 400px">
-    <div class="card">
-        <div class="card-body">
+        <div class="col-lg-2 col-md-2 col-sm-0">
+        </div>
+
+        <div class="col-lg-8 col-md-8 col-sm-12 card "
+             style="padding-top: 50px; padding-bottom: 50px; margin-bottom: 400px">
+
+
             <div>
-                <h3 class="text text-info text-center font-weight-bold"
-                    style="margin-bottom: 25px">{{ sortie.nom }}</h3>
-                <p class="text text-right text-secondary font-italic">Date et heure de l'événement
-                    : {{ sortie.dateHeureDebut|date('d/M/Y H:i') }} || durée : {{ sortie.duree }}h</p>
-                <p class="text text-right font-weight-bold">Nombre de participants : {{ participants|length }}
-                    / {{ sortie.nbInscriptionsMax }} places</p>
+                <h3 class="text text-info text-center font-weight-bold "
+                    style="margin-bottom: 25px"> Sortie {{ sortie.nom }}
+                </h3>
+                <div style="margin-bottom: 50px">
+                    <p class="text text-center">
+                        Le {{ sortie.dateHeureDebut|date('d/m/Y') }} à {{ sortie.dateHeureDebut|date('H:i') }} heures
+                        <br>
+                        Durée : {{ sortie.duree }} heures
+                        <br>
+                        Nombre de participants : {{ participants|length }} / {{ sortie.nbInscriptionsMax }} places
+                    </p>
+                </div>
 
-                <p>La sortie est : {{ sortie.etat.libelle }}</p>
-                <p>Date limite d'inscription : {{ sortie.dateLimiteInscription|date('d/m/Y') }}</p>
-            </div>
-            <p>organistaeur : <a href="{{ path('profil',{'id':orga.id}) }}">{{ orga.nom }}</a></p>
-            <p>Ville organisatrice : {{ sortie.site.nom }}</p>
-            <p>Ville de la sortie : {{ sortie.lieu.ville.nom }}</p>
-            <p>Lieu : {{ sortie.lieu.nom }}</p>
-            <p>Rue : {{ sortie.lieu.rue }}</p>
-            <p>Code postal : {{ sortie.lieu.ville.cp }}</p>
-            <p>Latitude : {{ sortie.lieu.latitude }}</p>
-            <p>Longitude : {{ sortie.lieu.longitude }}</p>
-            {% if (sortie.etat.libelle != 'annulée') %}
-                <p>Information relative à lévénement : </p>
-            {% else %}
-                <p>Motif de l'annulation relative à lévénement : </p>
-            {% endif %}
-            <p style="margin-top: 20px;margin-bottom: 30px">{{ sortie.infosSortie }}</p>
+                <table class="table">
+                    <tr>
+                        <td>
+                            <h6 class="text font-weight-bold"> Etat </h6>
+                        </td>
+                        <td>{{ sortie.etat.libelle }}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h6 class="text font-weight-bold"> Organisateur </h6>
+                        </td>
+                        <td><a href="{{ path('profil',{'id':orga.id}) }}">{{ orga.nom }}</a></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h6 class="text font-weight-bold"> Ville organisatrice </h6>
+                        </td>
+                        <td>{{ sortie.site.nom }}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h6 class="text font-weight-bold"> Adresse de la sortie </h6>
+                        </td>
+                        <td>
+                            {{ sortie.lieu.nom }}<br>
+                            {{ sortie.lieu.rue }}<br>
+                            {{ sortie.lieu.ville.cp }} {{ sortie.lieu.ville.nom }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h6 class="text font-weight-bold"> Coordonnées GPS </h6>
+                        </td>
+                        <td>
+                            Latitude : {{ sortie.lieu.latitude }} <br>
+                            Longitude : {{ sortie.lieu.longitude }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            {% if (sortie.etat.libelle != 'annulée') %}
+                                <h6 class="text font-weight-bold"> Descritpion</h6>
+                            {% else %}
+                                <h6 class="text font-weight-bold"> Motif de l'annulation</h6>
+                            {% endif %}
+                        </td>
+                        <td>{{ sortie.infosSortie }}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h6 class="text font-weight-bold"> Liste des participants </h6>
+                        </td>
+                        <td>
+                            {% for participant in participants %}
+                                <a href="{{ path('profil', {'id':participant.id}) }}">
+                                    <img src="/sortir/public/photoUser/{{ participant.username }} " width="auto"
+                                         height="20px"></a>
+                                <a href="{{ path('profil', {'id':participant.id}) }}"> {{ participant.username }}</a>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                </table>
+
+                <div style="padding: 10px; margin-bottom: 50px" class="offset-3 col-md-6 col-lg-6 col-sm-8 ">
+                    {% if (sortie.lieu.latitude != null) %}
+                        <div id="map"></div>
+                    {% else %}
+                        La latitude et la longitude n'etant pas définies, la carte n'est pas disponible !
+                    {% endif %}
+                </div>
 
                 <div class="container">
-                    <p>Liste des participants : </p>
-                    {% for participant in participants %}
-                        <div class="row border">
-                            <div class="col-1">
-                                <a href="{{ path('profil', {'id':participant.id}) }}"><img
-                                            src="/sortir/public/photoUser/{{ participant.username }}"
-                                            width="auto"
-                                            height="20px"></a>
-                            </div>
-                            <a href="{{ path('profil', {'id':participant.id}) }}">
-                                <div class="col-12">{{ participant.username }}</div>
-                            </a>
-                        </div>
-                        <a href="{{ path('profil', {'id':participant.id}) }}">
-                            <div class="col-12">{{ participant.username }}</div>
-                        </a>
+
+                    <div class="col-md-3 col-lg-3 col-sm-3">
                     </div>
-                    <br>
-                {% endfor %}
-
-                {% if (sortie.lieu.latitude != null) %}
-                    <div id="map"></div>
-                {% else %}
-                    <p>La latitude et la longitude n'etant pas defini, la carte n'est pas disponible !</p>
-                {% endif %}
-            </div>
-
-            <div class="offset-3 col-6 ">
 
 
-                {% if app.user  == sortie.organisateur and sortie.etat.id == 1 %}
-                    <a href="{{ path("publier",{'id':sortie.id}) }}"
-                       class="btn btn-outline-success btn-block">Publier</a>
-                {% endif %}
-                {% if (sortie.etat.id == 3) %}
+                    <div class="col-md-6 col-lg-6 col-sm-6 " style="margin-left: 25%">
 
-                    {% if app.user not in participants  and (sortie.users.count < sortie.nbInscriptionsMax) %}
-                        <a href="{{ path("addParticipant",{'id':sortie.id}) }}"
-                           class="btn btn-outline-danger btn-block">S'inscrire</a>
-                    {% endif %}
+                        <div>
+                            {% if app.user  == sortie.organisateur and sortie.etat.id == 1 %}
+                                <a href="{{ path("publier",{'id':sortie.id}) }}"
+                                   class="btn btn-outline-success btn-block">Publier</a>
+                            {% endif %}
+                            {% if (sortie.etat.id == 3) %}
 
-                    {% if app.user in participants %}
-                        <a href="{{ path("removeParticipant",{'id':sortie.id}) }}"
-                           class="btn btn-outline-primary btn-block"
-                           style="margin-top: 10px">Se désister</a>
-                    {% endif %}
+                                {% if app.user not in participants  and (sortie.users.count < sortie.nbInscriptionsMax) %}
+                                    <a href="{{ path("addParticipant",{'id':sortie.id}) }}"
+                                       class="btn btn-outline-success btn-block">S'inscrire</a>
+                                {% endif %}
 
-                {% endif %}
-            </div>
+                                {% if app.user in participants %}
+                                    <a href="{{ path("removeParticipant",{'id':sortie.id}) }}"
+                                       class="btn btn-outline-primary btn-block"
+                                       style="margin-top: 10px">Se désister</a>
+                                {% endif %}
+
+                            {% endif %}
+                        </div>
 
 
-            {% if ((sortie.etat.id <= 3)and (app.user == sortie.organisateur)) %}
-                <div class="offset-3 col-6 ">
-                    <a href="{{ path('sortie_modif',{'id':sortie.id}) }}"
-                    class="btn btn-outline-danger btn-block">Modifier</a>
+                        {% if ((sortie.etat.id <= 3)and (app.user == sortie.organisateur)) %}
+                            <div>
+                                <a href="{{ path('sortie_modif',{'id':sortie.id}) }}"
+                                   class="btn btn-outline-primary btn-block">Modifier</a>
+                            </div>
+                            <div>
+                                <a href="{{ path('sortie_annule',{'id':sortie.id}) }}"
+                                   class="btn btn-outline-danger btn-block"
+                                   style="margin-top: 10px">Annuler sortie</a>
+                            </div>
+                        {% endif %}
+
+
+                        <div>
+
+                            <a href="{{ path('list') }}"
+                               class="btn btn-outline-danger btn-block">Retour</a>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-3 col-lg-3 col-sm-3">
+                    </div>
+
                 </div>
-                <div class="offset-3 col-6 ">
-                    <a href="{{ path('sortie_annule',{'id':sortie.id}) }}"
-                    class="btn btn-outline-primary btn-block"
-                    style="margin-top: 10px">Annuler la sortie</a>
-                </div>
-            {% endif %}
-            
-            <div class="offset-3 col-6 ">
 
-                <a href="{{ path('list') }}"
-                   class="btn btn-outline-danger btn-block">Retour</a>
+
             </div>
-
         </div>
+
+
+        <div class="col-md-2 col-lg-2 col-sm-0">
+        </div>
+
+
     </div>
-</div>
 
 
-<script type="text/javascript">
-    // On initialise la latitude et la longitude de P (centre de la carte)
-    //  var lat = 48.202047;
-    //  var lon = -2.932644;
-    var macarte = null;
+    <script type="text/javascript">
+        // On initialise la latitude et la longitude de P (centre de la carte)
+        //  var lat = 48.202047;
+        //  var lon = -2.932644;
+        var macarte = null;
 
-    // Fonction d'initialisation de la carte
-    function initMap() {
-        // Créer l'objet "macarte" et l'insèrer dans l'élément HTML qui a l'ID "map"
-        macarte = L.map('map').setView([ {{ sortie.lieu.latitude }}, {{ sortie.lieu.longitude }}], 18);
-        var marker = L.marker([{{ sortie.lieu.latitude }}, {{ sortie.lieu.longitude }}]).addTo(macarte);
-        // Leaflet ne récupère pas les cartes (tiles) sur un serveur par défaut. Nous devons lui préciser où nous souhaitons les récupérer. Ici, openstreetmap.fr
-        L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
-            // Il est toujours bien de laisser le lien vers la source des données
-            attribution: 'données © <a href="//osm.org/copyright">OpenStreetMap</a>/ODbL - rendu <a href="//openstreetmap.fr">OSM France</a>',
-            minZoom: 1,
-            maxZoom: 20
-        }).addTo(macarte);
-    }
+        // Fonction d'initialisation de la carte
+        function initMap() {
+            // Créer l'objet "macarte" et l'insèrer dans l'élément HTML qui a l'ID "map"
+            macarte = L.map('map').setView([ {{ sortie.lieu.latitude }}, {{ sortie.lieu.longitude }}], 18);
+            var marker = L.marker([{{ sortie.lieu.latitude }}, {{ sortie.lieu.longitude }}]).addTo(macarte);
+            // Leaflet ne récupère pas les cartes (tiles) sur un serveur par défaut. Nous devons lui préciser où nous souhaitons les récupérer. Ici, openstreetmap.fr
+            L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+                // Il est toujours bien de laisser le lien vers la source des données
+                attribution: 'données © <a href="//osm.org/copyright">OpenStreetMap</a>/ODbL - rendu <a href="//openstreetmap.fr">OSM France</a>',
+                minZoom: 1,
+                maxZoom: 20
+            }).addTo(macarte);
+        }
 
-    window.onload = function () {
-        // Fonction d'initialisation qui s'exécute lorsque le DOM est chargé
-        initMap();
-    };
-</script>
+        window.onload = function () {
+            // Fonction d'initialisation qui s'exécute lorsque le DOM est chargé
+            initMap();
+        };
+    </script>
 
 
-{% endblock %}
+    {% endblock %}
 
 

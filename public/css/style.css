@@ -1,10 +1,24 @@
-textarea{
-    resize: none;
-}
-
 #map{
     height: 400px;
     width: 400px;
 }
 
+.flash{
+    padding: 20px;
+    display: block;
+    animation: running;
+}
+
+.flash-success{
+    background-color: rgba(126, 248, 42, 0.4);
+}
+
+.flash-error{
+    background-color: rgba(254, 76, 76, 0.37);
+}
+
+body {
+    margin:0;
+    padding:0;
+    background: url("back.jpg") no-repeat center fixed; background-size: cover; }
 

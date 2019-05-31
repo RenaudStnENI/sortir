@@ -3,34 +3,98 @@
 {% block title %}{{ parent() }} | {{ title }}{% endblock %}
 
 {% block main %}
-    <div>
-        <h3>Annuler une sortie !</h3>
+    <div class="container">
+        <div class="row">
+
+
+            <div class="col-md-2 col-lg-2 col-sm-0">
+            </div>
+
+
+            <div class="col-sm-12 col-md-8 col-lg-8 card" style="padding: 60px; margin-bottom: 100px">
+
+
+                <div class="container" style="margin-bottom: 15px">
+
+                    <div>
+                        <h3 class="text text-info font-weight-bold">{{ app.user.prenom }}, souhaitez-vous annuler cette
+                            sortie ?</h3>
+                    </div>
+
+
+                    <table class="table" style="margin-top: 10%">
+                        <tr>
+                            <td>
+                                <h6 class="text font-weight-bold"> Nom de la sortie </h6>
+                            </td>
+                            <td>{{ sortie.nom }}</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h6 class="text font-weight-bold"> Date de la sortie </h6>
+                            </td>
+                            <td>{{ sortie.dateHeureDebut|date() }}</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h6 class="text font-weight-bold"> Ville organisatrice </h6>
+                            </td>
+                            <td>       {{ sortie.lieu.ville.nom }}</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h6 class="text font-weight-bold"> Adresse </h6>
+                            </td>
+                            <td>
+                                {{ sortie.lieu.nom }}<br>
+                                {{ sortie.lieu.rue }}<br>
+                                {{ sortie.lieu.ville.cp }} {{ sortie.lieu.ville.nom }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h6 class="text font-weight-bold"> Site </h6>
+                            </td>
+                            <td>       {{ app.user.site.nom }}</td>
+                        </tr>
+
+                    </table>
+
+                    <div>
+                        {{ form_start(annuleForm) }}
+
+
+                        <div class="group" style="margin-top: 10%">
+                            <div>
+                                <p>
+                                <h6 class="text font-weight-bold">Pour confirmer, remplacez la description de la sortie
+                                    par le motif d'annulation</h6>
+                                </p>
+                            </div>
+                            <div>
+                                {{ form_widget(annuleForm.infosSortie) }}
+                                {{ form_errors(annuleForm.infosSortie) }}
+                            </div>
+                        </div>
+                        <div class="group">
+                            <div>
+                                {{ form_label(annuleForm.enregistrer) }}
+                                {{ form_widget(annuleForm.enregistrer) }}
+                            </div>
+                        </div>
+
+                        <div class="offset-3 col-md-6 col-lg-6 col-sm-8" style="margin-top: 30px">
+                            <a href="{{ path('list') }}"
+                               class="btn btn-outline-danger btn-block"
+                               style="margin-top: 10px">retour</a>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
 
-    <p>Nom de la sortie : {{ sortie.nom }}</p>
-    <p>Date de la sortie : {{ sortie.dateHeureDebut|date() }}</p>
-    <p>Ville organisatrice : {{ app.user.site.nom }}</p>
-    <p>{{ sortie.lieu.nom }} {{ sortie.lieu.ville.cp }} {{ sortie.lieu.ville.nom }}</p>
-
-    <div>
-        <label>Site : </label>
-        {{ app.user.site.nom }}
-    </div>
-
-    <div>
-        {{ form_start(annuleForm) }}
-        <div>
-            {{ form_widget(annuleForm.infosSortie) }}
-            {{ form_errors(annuleForm.infosSortie) }}
-        </div>
-        <div>
-            {{ form_label(annuleForm.enregistrer) }}
-            {{ form_widget(annuleForm.enregistrer) }}
-        </div>
-
-            {{ form_end(annuleForm) }}
-            <a href="{{ path('list') }}" ><button type="button">Retour</button></a>
-        </div>
-    </div>
 {% endblock %}
 

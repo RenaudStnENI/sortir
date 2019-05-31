@@ -77,7 +77,7 @@ class AdminController extends Controller
             $em->persist($newVille);
             $em->flush();
             $this->addFlash("success", "La ville a été ajouté");
-            $this->redirectToRoute("ville");
+            $this->redirectToRoute("list");
         }
 
         return $this->render('admin/ville.html.twig',
@@ -104,7 +104,7 @@ class AdminController extends Controller
             $em->persist($newSite);
             $em->flush();
             $this->addFlash("success", "Le site a été ajouté");
-            $this->redirectToRoute("site");
+            $this->redirectToRoute("list");
         }
 
         return $this->render('admin/site.html.twig',
