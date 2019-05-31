@@ -1,0 +1,46 @@
+{% extends ('layout.html.twig') %}
+
+{% block title %}{{ parent() }} | Ajouter user csv{% endblock %}
+
+{% block main %}
+
+    <div class="container">
+        <div class="row">
+
+
+            <div class="col-md-2 col-lg-2 col-sm-0">
+            </div>
+
+
+            <div class="col-sm-12 col-md-8 col-lg-8 card" style="padding: 60px; margin-bottom: 100px">
+
+
+                <div class="container" style="margin-bottom: 100px">
+
+
+                    <div>
+                        <h3 class="text text-info font-weight-bold">Bonjour {{ app.user.prenom }}, souhaitez-vous
+                            importer un
+                            utilisateur ?</h3><br>
+                    </div>
+
+
+                    <div>
+                        {{ form_start(importcsvForm) }}
+                        {{ form_widget(importcsvForm.fichier) }}
+                        {{ form_errors(importcsvForm.fichier) }}
+                        <div class="col-sm-6 offset-sm-3">
+                            <button type="submit" class="btn btn-outline-primary btn-block mt-5">Valider</button>
+                        </div>
+                        {{ form_end(importcsvForm) }}
+                        <div class="col-sm-6 offset-sm-3">
+                            <a href="{{ path('addUtilisateur') }}" class="btn btn-outline-danger btn-block"
+                               style="margin-top: 10px">Retour</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

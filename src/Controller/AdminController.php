@@ -6,6 +6,7 @@ use App\Entity\Site;
 use App\Entity\User;
 use App\Entity\Ville;
 use App\Form\AddUserType;
+use App\Form\ImportcsvType;
 use App\Form\SiteType;
 use App\Form\UserType;
 use App\Form\VilleType;
@@ -77,7 +78,7 @@ class AdminController extends Controller
             $em->persist($newVille);
             $em->flush();
             $this->addFlash("success", "La ville a été ajouté");
-            $this->redirectToRoute("ville");
+            $this->redirectToRoute("list");
         }
 
         return $this->render('admin/ville.html.twig',
@@ -104,7 +105,7 @@ class AdminController extends Controller
             $em->persist($newSite);
             $em->flush();
             $this->addFlash("success", "Le site a été ajouté");
-            $this->redirectToRoute("site");
+            $this->redirectToRoute("list");
         }
 
         return $this->render('admin/site.html.twig',
@@ -176,5 +177,80 @@ class AdminController extends Controller
         return $this->render('admin/index.html.twig', [
             'controller_name' => 'AdminController',
         ]);
+    }
+    /**
+     * @Route("/sortir/admin/importCSV",name="importCSV")
+     */
+    public function addCSV(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
+    {
+        //on récupère le fichier
+        $importcsvForm = $this->createForm(ImportcsvType::class);
+        $importcsvForm->handleRequest($request);
+
+        if ($importcsvForm->isSubmitted() && $importcsvForm->isValid()) {
+
+            if ($importcsvForm['fichier']->getData() != null) {
+                dump($importcsvForm['fichier']);
+                $file = $importcsvForm['fichier']->getData();
+                $fileName = 'participants.csv';
+
+                //on stocke le fichier pour ensuite le traiter
+                $file->move($this->getParameter('photo_directory'), $fileName);
+
+                //on traite le fichier
+                $utilisateurs = array(); // $utilisateurs va contenir les users extraits du fichier csv
+                $ligne = 0;
+
+                // Import du fichier CSV
+                //$handle = fichier à manipuler
+                //$data = ligne du fichier à traiter
+                if (($handle = fopen("./photoUser/" . $fileName, "r")) !== FALSE) { // Lecture du fichier, à adapter
+                    while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) { // Eléments séparés par un point-virgule, à modifier si necessaire
+                        $num = count($data); // Nombre d'éléments sur la ligne traitée
+                        $ligne++;
+                        for ($c = 0; $c < $num; $c++) {
+                            $utilisateurs[$ligne] = array(
+                                "nom" => $data[0],
+                                "prenom" => $data[1],
+                                "telephone" => $data[2],
+                                "email" => $data[3],
+                                "idSite" => $data[4],
+                                "username"=>$data[5]
+                            );
+                        }
+                    }
+                    fclose($handle);
+                }
+
+                $siteRepo = $em->getRepository(Site::class);
+
+                //on ajoute en bdd les utilisateurs du tableau $utilisateurs
+                foreach ($utilisateurs as $utilisateur) {
+                    $user = new User();
+
+                    $hashed = $encoder->encodePassword($user, "123");
+                    $user->setPassword($hashed);
+                    $user->setActif(true);
+                    $user->setAdmin(false);
+
+                    $user->setNom($utilisateur['nom']);
+                    $user->setPrenom($utilisateur['prenom']);
+                    $user->setMail($utilisateur['email']);
+                    $user->setTelephone($utilisateur['telephone']);
+                    $user->setSite($siteRepo->find($utilisateur['idSite']));
+                    $user->setUsername($utilisateur['username']);
+
+
+                    $em->persist($user);
+                }
+                $em->flush();
+                $this->addFlash("success", "Utilisateurs créés avec succès !");
+                $this->redirectToRoute('list');
+
+            } else {
+                $this->addFlash("danger", "Aucun fichier soumis");
+            }
+        }
+        return $this->render('admin/importcsv.html.twig',['importcsvForm' => $importcsvForm->createView()]);
     }
 }

@@ -5,67 +5,61 @@
 {% block main %}
 
     <div class="container">
-        <div class="row">
+    <div class="row">
 
-            <div class="col-sm-3">
+
+        <div class="col-md-2 col-lg-2 col-sm-12">
+        </div>
+
+
+        <div class="col-sm-12 col-md-8 col-lg-8 card" style="padding: 60px; margin-bottom: 100px">
+            <div>
+                <p>
+                <h3 class="text text-info font-weight-bold" style="margin-bottom: 25px">Liste des
+                    sites</h3></p>
+                <br>
+                <table class="table">
+                    {% for site in sites %}
+
+                        <tr>
+                            <td>{{ site.nom }}</td>
+                        </tr>
+
+                    {% endfor %}
+                </table>
             </div>
 
-            <div class="col-sm-6">
+            <div class="offset-3 col-md-6 col-lg-6 col-sm-12 " style="margin-top: 50px;">
+                <div class="container">
+                    {{ form_start(siteForm) }}
+                    <div>Souhaitez-vous ajouter un site ?<br> Entrer son nom :</div>
+                    <div>
+                        {{ form_widget(siteForm.nom ) }}
+                        {{ form_errors(siteForm.nom) }}
+                    </div>
+                </div>
 
                 <div class="container">
-
-                    <p>
-                    <h1>Liste des sites</h1></p>
-                    <br>
-
-                    <table class="table">
-
-                        {% for site in sites %}
-
-                            <tr>
-                                <td>{{ site.nom }}</td>
-                            </tr>
-
-                        {% endfor %}
-
-
-                    </table>
-
+                    <button type="submit"
+                            class="btn btn-outline-primary btn-block">ajouter
+                    </button>
                 </div>
 
 
-                <div class="offset-3 col-6 " style="margin-top: 50px;">
-
-
-                    <div class="container">
-                        {{ form_start(siteForm) }}
-                        <div>Souhaitez-vous ajouter un site ? entrer son nom :</div>
-                        <div>
-                            {{ form_widget(siteForm.nom ) }}
-                            {{ form_errors(siteForm.nom) }}
-                        </div>
-                    </div>
-                    <div class="container">
-                        <button type="submit"
-                                class="btn btn-outline-primary btn-block">ajouter
-                        </button>
-                    </div>
-                    {{ form_end(siteForm) }}
-
-
+                <div class="container">
+                    <a href="{{ path('list') }}"
+                       class="btn btn-outline-danger btn-block"
+                       style="margin-top: 10px">retour</a>
                 </div>
 
-                <div class="offset-3 col-6 " style="margin-bottom: 100px;">
-                    <div class="container">
-                        <a href="{{ path('list') }}"
-                           class="btn btn-outline-danger btn-block"
-                           style="margin-top: 10px">retour</a>
-                    </div>
-                </div>
 
+                {{ form_end(siteForm) }}
 
             </div>
 
+        </div>
+
+        <div class="col-sm-2" style="margin-bottom: 100px">
         </div>
 
     </div>

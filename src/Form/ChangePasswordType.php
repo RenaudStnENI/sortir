@@ -15,7 +15,7 @@ class ChangePasswordType extends AbstractType
     {
         $builder
             ->add('oldPassword', PasswordType::class, array(
-                'mapped' => false))
+                'mapped' => false, 'label'=>'Ancien mot de passe'))
             ->add('password', RepeatedType::class,
                 [
                     'mapped' => false,
